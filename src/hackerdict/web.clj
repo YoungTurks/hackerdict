@@ -27,10 +27,10 @@
   (ANY "/repl" {:as req}
        (drawbridge req))
   
-  (GET "/" []
-       {:status 200
-        :headers {"Content-Type" "text/plain"}
-        :body (pr-str ["Hello" :from 'Heroku])})
+  (GET "/" {session :session}
+    {:status 200
+     :headers {"Content-Type" "text/plain"}
+     :body (str "Main page \n User token is `" (:token session) "`.")})
   
   (GET "/login" {session :session}
     (let [state (auth/random-state)
@@ -39,13 +39,24 @@
        (println "hot")
        (-> (response/redirect uri)
            (assoc :session (assoc session :state state)))))
+
+  (GET "/logout" {session :session}
+    (if-let [token (:token session)]
+      {:status 200
+       :headers {"Content-Type" "text/plain"}
+       :body "Logged out."
+       :session (dissoc session :token)}
+      {:status 404
+       :headers {"Content-Type" "text/plain"}
+       :body "Not logged in."}))
   
   (ANY "/auth" {params :params session :session}
     (if (= (:state params) (:state session))
       (if-let [token (auth/access-token (:code params))]
         {:status 200
          :headers {"Content-Type" "text/plain"}
-         :body (str "Token is `" token "` :)")}
+         :body (str "Token is `" token "`.")
+         :session (assoc session :token token)}
         {:status 400
          :headers {"Content-Type" "text/plain"}
          :body "Cannot get token."})
