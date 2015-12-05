@@ -30,8 +30,11 @@
   (GET "/" {session :session}
     {:status 200
      :headers {"Content-Type" "text/plain"}
-     :body (str "Main page \n"
-                (when-let [token (:token session)] (str "User token is `" token "`.\n")))})
+     :body (str "Main Page \n"
+                "========= \n"
+              (when-let [token (:token session)] 
+                (str "User token is " token ".\n"
+                     "Email is " (auth/get-email token) ".\n")))})
   
   (GET "/login" {session :session}
     (if-let [token (:token session)]

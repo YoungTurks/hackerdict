@@ -33,8 +33,22 @@
   (let [resp (http/post (:access-token-uri oauth2-params)
                  {:form-params {:code         code
                                 :grant_type   "authorization_code"
-                               :client_id    (:client-id oauth2-params)
+                                :client_id    (:client-id oauth2-params)
                                 :redirect_uri (:redirect-uri oauth2-params)}
                   :basic-auth [(:client-id oauth2-params) (:client-secret oauth2-params)]
                   :as          :text})]
     (:access_token (params->map (:body @resp)))))
+
+(defn get-email [token]
+  (when token
+    (let [resp (http/get "https://api.github.com/user/emails"
+                         {:oauth-token token
+                          :as :text})]
+      (println "xxx")
+      (println resp)
+      (println @resp)
+      (println (:body @resp))
+      (println (params->map (:body @resp)))
+      (println (:email (params->map (:body @resp))))
+      (println "xxx")
+      (:email (params->map (:body @resp))))))
