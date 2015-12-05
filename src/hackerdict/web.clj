@@ -26,18 +26,49 @@
 (defroutes app
   (ANY "/repl" {:as req}
        (drawbridge req))
-  (GET "/" []
-       {:status 200
-        :headers {"Content-Type" "text/plain"}
-        :body (pr-str ["Hello" :from 'Heroku])})
-  (GET "/login" []
-    (let [state (auth/random-state)
-          uri (auth/authorize-uri state)]
-       (println uri)
-       (println "hot")
-       (response/redirect uri)))
-  (ANY "/auth" {params :params}
-    (println "auth params are " params))
+  
+  (GET "/" {session :session}
+    {:status 200
+     :headers {"Content-Type" "text/plain"}
+     :body (str "Main Page \n"
+                "========= \n"
+              (when-let [token (:token session)] 
+                (str "User token is " token ".\n"
+                     "Email is " (auth/get-email token) ".\n")))})
+  
+  (GET "/login" {session :session}
+    (if-let [token (:token session)]
+      {:status 404
+       :headers {"Content-Type" "text/plain"}
+       :body "Already logged in."}
+      (let [state (auth/random-state)
+            uri (auth/authorize-uri state)]
+         {:status 302 
+          :headers {"Location" uri}
+          :session (assoc session :state state)})))
+
+  (GET "/logout" {session :session}
+    (if-let [token (:token session)]
+      {:status 302 
+       :headers {"Location" "/"}
+       :session (dissoc session :token)}
+      {:status 404
+       :headers {"Content-Type" "text/plain"}
+       :body "Not logged in."}))
+  
+  (ANY "/auth" {params :params session :session}
+    (if (= (:state params) (:state session))
+      (if-let [token (auth/access-token (:code params))]
+        {:status 302 
+         :headers {"Location" "/"}
+         :session (assoc session :token token)}
+        {:status 400
+         :headers {"Content-Type" "text/plain"}
+         :body "Cannot get token."})
+      {:status 400
+       :headers {"Content-Type" "text/plain"}
+       :body    "Sessions doesn't match."}))
+
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
 
