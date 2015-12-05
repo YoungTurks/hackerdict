@@ -37,8 +37,8 @@ get the app created:
 Set Datomic credentials:
 
     heroku config:add BUILD_CONFIG_WHITELIST="DATOMIC_USERNAME DATOMIC_PASSWORD"
-    heroku config:add DATOMIC_USERNAME="email@provider.com"
-    heroku config:add DATOMIC_PASSWORD="pass-word"
+    heroku config:add DATOMIC_USERNAME="email"
+    heroku config:add DATOMIC_PASSWORD="password"
 
 
 You can deploy the skeleton project immediately:
