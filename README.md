@@ -34,6 +34,13 @@ get the app created:
     http://hackerdict.herokuapp.com/ | git@heroku.com:hackerdict.git
     Git remote heroku added
 
+Set Datomic credentials:
+
+    heroku config:add BUILD_CONFIG_WHITELIST="DATOMIC_USERNAME DATOMIC_PASSWORD"
+    heroku config:add DATOMIC_USERNAME="email@provider.com"
+    heroku config:add DATOMIC_PASSWORD="pass-word"
+
+
 You can deploy the skeleton project immediately:
 
     $ git push heroku master
