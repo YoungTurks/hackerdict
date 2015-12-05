@@ -5,10 +5,12 @@
   :repositories {"my.datomic.com" {:url "https://my.datomic.com/repo"
                                    :username [:env/datomic_username]
                                    :password [:env/datomic_password]}}
-  :dependencies [[com.cemerick/drawbridge "0.0.7" :exclusions [ring/ring-core]]
+  :dependencies [[com.cemerick/url "0.1.1"]
+                 [com.cemerick/drawbridge "0.0.7" :exclusions [ring/ring-core]]
                  [com.datomic/datomic-pro "0.9.5206"]
                  [compojure "1.4.0"]
                  [environ "1.0.1"]
+                 [http-kit "2.1.18"]
                  [org.clojure/clojure "1.6.0"]
                  [org.clojure/data.generators "0.1.2"]
                  [org.clojure/tools.nrepl "0.2.11"]

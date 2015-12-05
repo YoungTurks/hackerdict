@@ -3,12 +3,14 @@
             [compojure.handler :refer [site]]
             [compojure.route :as route]
             [clojure.java.io :as io]
-            [ring.middleware.reload :as reload]
-            [ring.middleware.stacktrace :as trace]
-            [ring.middleware.session :as session]
-            [ring.middleware.session.cookie :as cookie]
+            [hackerdict.auth :as auth]
             [ring.adapter.jetty :as jetty]
             [ring.middleware.basic-authentication :as basic]
+            [ring.middleware.reload :as reload]
+            [ring.middleware.session :as session]
+            [ring.middleware.session.cookie :as cookie]
+            [ring.middleware.stacktrace :as trace]
+            [ring.util.response :as response]
             [cemerick.drawbridge :as drawbridge]
             [environ.core :refer [env]]))
 
@@ -28,6 +30,14 @@
        {:status 200
         :headers {"Content-Type" "text/plain"}
         :body (pr-str ["Hello" :from 'Heroku])})
+  (GET "/login" []
+    (let [state (auth/random-state)
+          uri (auth/authorize-uri state)]
+       (println uri)
+       (println "hot")
+       (response/redirect uri)))
+  (ANY "/auth" {params :params}
+    (println "auth params are " params))
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
 
