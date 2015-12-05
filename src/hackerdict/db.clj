@@ -1,5 +1,4 @@
 (ns hackerdict.db
-  (:require [clojure.edn :refer [read-string]])
   (:require [hackerdict.schema :refer [schema]])
   (:import datomic.Util java.util.Random)
   (:require [datomic.api :as d])
@@ -7,9 +6,9 @@
   (:require [clojure.java.io :as io]))
 
 
-; (def uri "datomic:dev://localhost:4334/test")
+(def uri "datomic:dev://localhost:4334/test2")
 
-(def uri  "datomic:sql://hackerdict?jdbc:postgresql://localhost:5432/datomic?user=datomic&password=datomic")
+;(def uri  "datomic:sql://hackerdict?jdbc:postgresql://localhost:5432/datomic?user=datomic&password=datomic")
 
 ;;;;;;;;;;;;;;;;;
 ;; Maintenance and Migration Functions
@@ -42,6 +41,16 @@
 ;; User functions
 ;;;;;;;;;;;;;;;;;
 
+(defn get-user-id-by-username [username]
+  (d/q '[:find ?e .
+         :in $ ?username
+         :where [?e :user/username ?username]]
+       (get-latest-db) username))
+
+
+(comment
+  (get-user-id-by-username "ustunozgur"))
+
 (defn create-or-update-user
   "Creates or updates user for a given user map. The username field is required in the usermap. Other fields are optional."
   [{:keys [username first-name last-name email github-username github-token]}]
@@ -60,7 +69,10 @@
     (clean-nil-vals (merge shared-map custom-map))))
 
 (comment
-  (create-or-update-user {:username "ustunozgur" :github-token "foobar"}))
+  (create-or-update-user {:username "ustunozgur" :github-token "foobar"})
+  (create-or-update-user! {:username "ustunozgur" :github-token "foobar"})
+
+  )
 
 
 (defn get-user-ids
@@ -81,6 +93,7 @@
          :where [?e :user/username ?n]]
        (get-latest-db)))
 
+(comment (get-user-names))
 
 (defn get-user-some-predefined-data
   "doc-string"
@@ -127,14 +140,7 @@
          :where [?e :user/first-name ?n]]
        (get-latest-db)))
 
-(defn get-user-id-by-username [username]
-  (d/q '[:find ?e .
-         :in $ ?username
-         :where [?e :user/username ?username]]
-       (get-latest-db) username))
 
-(comment
-  (get-user-id-by-username "ustunozgur"))
 
 
 (defn get-user-emails
@@ -172,14 +178,15 @@
 ;;;;;;;;;;;;
 
 
-(defn create-subject! [subject username]
-  (d/transact (get-connection) [(create-subject subject username)]))
 
 (defn create-subject [subject username]
   {:db/id #db/id[:db.part/user]
    :subject/text subject
    :subject/date-added (java.util.Date.)
    :subject/creator (get-user-id-by-username username)})
+
+(defn create-subject! [subject username]
+  (d/transact (get-connection) [(create-subject subject username)]))
 
 (comment
   (create-subject! "merhaba" "ustunozgur"))

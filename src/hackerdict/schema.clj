@@ -1,4 +1,6 @@
-(ns hackerdict.schema)
+(ns hackerdict.schema
+  (:require [datomic.api :as d])
+  )
 
 (def schema
   [
@@ -144,14 +146,14 @@
 
    {:db/id #db/id[:db.part/db]
     :db/ident :subject/n-entries-today
-    :db/valueType :db.type/Long
+    :db/valueType :db.type/long
     :db/doc "A subject's number of entries today"
     :db/cardinality :db.cardinality/one
     :db.install/_attribute :db.part/db}
 
    {:db/id #db/id[:db.part/db]
     :db/ident :subject/n-entries-total
-    :db/valueType :db.type/Long
+    :db/valueType :db.type/long
     :db/doc "A subject's number of entries in total"
     :db/cardinality :db.cardinality/one
     :db.install/_attribute :db.part/db}
