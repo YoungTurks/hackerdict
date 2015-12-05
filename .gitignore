@@ -1,4 +1,9 @@
 pom.xml
+*jar
+/.lein-env
+/checkouts
+/.env
+pom.xml
 pom.xml.asc
 *jar
 /lib/
