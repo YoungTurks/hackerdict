@@ -1,11 +1,17 @@
-(defproject hackerdict "0.1.0-SNAPSHOT"
+(defproject hackerdict "1.0.0-SNAPSHOT"
   :description "FIXME: write description"
-  :url "http://example.com/FIXME"
-  :license {:name "Eclipse Public License"
-            :url "http://www.eclipse.org/legal/epl-v10.html"}
-
-  :repositories {"my.datomic.com" {:url "https://my.datomic.com/repo"
-                                   :creds :gpg}}
-  :dependencies [[org.clojure/clojure "1.7.0"]
-                 [org.clojure/data.generators "0.1.2"]
-                 [com.datomic/datomic-pro "0.9.5206"]])
+  :url "http://hackerdict.herokuapp.com"
+  :license {:name "FIXME: choose"
+            :url "http://example.com/FIXME"}
+  :dependencies [[org.clojure/clojure "1.6.0"]
+                 [compojure "1.1.8"]
+                 [ring/ring-jetty-adapter "1.2.2"]
+                 [ring/ring-devel "1.2.2"]
+                 [ring-basic-authentication "1.0.5"]
+                 [environ "0.5.0"]
+                 [com.cemerick/drawbridge "0.0.6"]]
+  :min-lein-version "2.0.0"
+  :plugins [[environ/environ.lein "0.2.1"]]
+  :hooks [environ.leiningen.hooks]
+  :uberjar-name "hackerdict-standalone.jar"
+  :profiles {:production {:env {:production true}}})
