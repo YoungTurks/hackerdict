@@ -30,15 +30,15 @@
   (GET "/" {session :session}
     {:status 200
      :headers {"Content-Type" "text/plain"}
-     :body (str "Main page \n User token is `" (:token session) "`.")})
+     :body (str "Main page \n" 
+                "User token is `" (:token session) "`.")})
   
   (GET "/login" {session :session}
     (let [state (auth/random-state)
           uri (auth/authorize-uri state)]
-       (println uri)
-       (println "hot")
-       (-> (response/redirect uri)
-           (assoc :session (assoc session :state state)))))
+       {:status 302 
+        :headers {"Location" uri}
+        :session (assoc session :state state)}))
 
   (GET "/logout" {session :session}
     (if-let [token (:token session)]
@@ -53,9 +53,8 @@
   (ANY "/auth" {params :params session :session}
     (if (= (:state params) (:state session))
       (if-let [token (auth/access-token (:code params))]
-        {:status 200
-         :headers {"Content-Type" "text/plain"}
-         :body (str "Token is `" token "`.")
+        {:status 302 
+         :headers {"Location" "/"}
          :session (assoc session :token token)}
         {:status 400
          :headers {"Content-Type" "text/plain"}
