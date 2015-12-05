@@ -37,7 +37,10 @@
        (println "hot")
        (response/redirect uri)))
   (ANY "/auth" {params :params}
-    (println "auth params are " params))
+    (println "auth params are " params)
+    {:status 200
+     :headers {"Content-Type" "text/plain"}
+     :body (str "Params are " params)})
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
 
