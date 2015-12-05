@@ -153,6 +153,7 @@ besiktas-id
 
 
 
+
 (d/transact conn [{:db/id #db/id[:db.part/db]
                    :db/ident :takim/teknik-direktor
                    :db/valueType :db.type/string
