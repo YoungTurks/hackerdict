@@ -1,7 +1,8 @@
 (ns hackerdict.auth
   (:require [cemerick.url :refer [url-encode]]
             [environ.core :refer [env]]
-            [org.httpkit.client :as http]))
+            [org.httpkit.client :as http]
+            [ring.util.codec :as codec]))
 
 (def oauth2-params
    {:client-id        (env :github-client-id)
@@ -26,9 +27,7 @@
 
 (defn params->map [params]
   (clojure.walk/keywordize-keys 
-    (into {} 
-      (map #(clojure.string/split % #"=") 
-           (clojure.string/split params #"&")))))
+    (codec/form-decode params)))
 
 (defn access-token [code]
   (let [resp (http/post (:access-token-uri oauth2-params)
