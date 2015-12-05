@@ -38,7 +38,7 @@
       notify:
         - supervisor conf changed
     # - name: 'upload uberjar'
-    #   copy: src=../hackerdict/target/hackerdict-0.1.0-SNAPSHOT-standalone.jar dest=/home/deploy owner=deploy group=deploy mode=0644
+    #   copy: src=../target/hackerdict-0.1.0-SNAPSHOT-standalone.jar dest=/home/deploy owner=deploy group=deploy mode=0644
     #   notify:
     #     - uberjar file changed
   handlers:
