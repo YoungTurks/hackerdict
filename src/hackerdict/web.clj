@@ -26,21 +26,33 @@
 (defroutes app
   (ANY "/repl" {:as req}
        (drawbridge req))
+  
   (GET "/" []
        {:status 200
         :headers {"Content-Type" "text/plain"}
         :body (pr-str ["Hello" :from 'Heroku])})
-  (GET "/login" []
+  
+  (GET "/login" {session :session}
     (let [state (auth/random-state)
           uri (auth/authorize-uri state)]
        (println uri)
        (println "hot")
-       (response/redirect uri)))
-  (ANY "/auth" {params :params}
-    (println "auth params are " params)
-    {:status 200
-     :headers {"Content-Type" "text/plain"}
-     :body (str "Params are " params)})
+       (-> (response/redirect uri)
+           (assoc :session (assoc session :state state)))))
+  
+  (ANY "/auth" {params :params session :session}
+    (if (= (:state params) (:state session))
+      (if-let [token (auth/access-token (:code params))]
+        {:status 200
+         :headers {"Content-Type" "text/plain"}
+         :body (str "Token is `" token "` :)")}
+        {:status 400
+         :headers {"Content-Type" "text/plain"}
+         :body "Cannot get token."})
+      {:status 400
+       :headers {"Content-Type" "text/plain"}
+       :body    "Sessions doesn't match."}))
+
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
 

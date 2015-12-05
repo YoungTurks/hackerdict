@@ -9,7 +9,7 @@
     :authorize-uri    "https://github.com/login/oauth/authorize"
     :redirect-uri     "http://hackerdict.herokuapp.com/auth"
     :access-token-uri "https://github.com/login/oauth/access_token"
-    :scope            "activity profile"})      
+    :scope            "user:email"})      
 
 (defn random-state []
   (let [chars (map char (range 65 91))]
@@ -23,3 +23,14 @@
     "&redirect_uri="  (url-encode (:redirect-uri oauth2-params))
     "&scope="         (url-encode (:scope oauth2-params))
     "&state="         (url-encode state)))
+
+(defn access-token [code]
+  (let [resp (http/post (:access-token-uri oauth2-params)
+                 {:form-params {:code         code
+                                :grant_type   "authorization_code"
+                               :client_id    (:client-id oauth2-params)
+                                :redirect_uri (:redirect-uri oauth2-params)}
+                  :basic-auth [(:client-id oauth2-params) (:client-secret oauth2-params)]
+                  :as          :text})
+        body (:body @resp)]
+    (re-find #"(?<=access_token=)\w+" body)))
