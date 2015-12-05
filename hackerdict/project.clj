@@ -1,6 +1,7 @@
 (defproject hackerdict "1.0.0-SNAPSHOT"
   :description "The community driven dictionary of hacker interests."
   :url "http://hackerdict.herokuapp.com"
+  :main hackerdict.web
   :repositories {"my.datomic.com" {:url "https://my.datomic.com/repo"
                                    :creds :gpg}}
   :dependencies [[com.cemerick/drawbridge "0.0.7" :exclusions [ring/ring-core]]
