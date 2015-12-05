@@ -46,9 +46,8 @@
 
   (GET "/logout" {session :session}
     (if-let [token (:token session)]
-      {:status 200
-       :headers {"Content-Type" "text/plain"}
-       :body "Logged out."
+      {:status 302 
+       :headers {"Location" "/"}
        :session (dissoc session :token)}
       {:status 404
        :headers {"Content-Type" "text/plain"}
