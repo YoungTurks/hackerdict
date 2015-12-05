@@ -24,6 +24,12 @@
     "&scope="         (url-encode (:scope oauth2-params))
     "&state="         (url-encode state)))
 
+(defn params->map [params]
+  (clojure.walk/keywordize-keys 
+    (into {} 
+      (map #(clojure.string/split % #"=") 
+           (clojure.string/split params #"&")))))
+
 (defn access-token [code]
   (let [resp (http/post (:access-token-uri oauth2-params)
                  {:form-params {:code         code
@@ -31,6 +37,5 @@
                                :client_id    (:client-id oauth2-params)
                                 :redirect_uri (:redirect-uri oauth2-params)}
                   :basic-auth [(:client-id oauth2-params) (:client-secret oauth2-params)]
-                  :as          :text})
-        body (:body @resp)]
-    (re-find #"(?<=access_token=)\w+" body)))
+                  :as          :text})]
+    (:access_token (params->map (:body @resp)))))
