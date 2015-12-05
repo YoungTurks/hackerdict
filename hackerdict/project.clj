@@ -3,7 +3,7 @@
   :url "http://hackerdict.herokuapp.com"
   :repositories {"my.datomic.com" {:url "https://my.datomic.com/repo"
                                    :creds :gpg}}
-  :dependencies [[com.cemerick/drawbridge "0.0.7"]
+  :dependencies [[com.cemerick/drawbridge "0.0.7" :exclusions [ring/ring-core]]
                  [com.datomic/datomic-pro "0.9.5206"]
                  [compojure "1.4.0"]
                  [environ "1.0.1"]
