@@ -3,6 +3,7 @@
             [compojure.handler :refer [site]]
             [compojure.route :as route]
             [clojure.java.io :as io]
+            [ring.middleware.reload :as reload]
             [ring.middleware.stacktrace :as trace]
             [ring.middleware.session :as session]
             [ring.middleware.session.cookie :as cookie]
@@ -45,6 +46,7 @@
         ((if (env :production)
            wrap-error-page
            trace/wrap-stacktrace))
+        reload/wrap-reload
         (site {:session {:store store}}))))
 
 (defn -main [& [port]]
