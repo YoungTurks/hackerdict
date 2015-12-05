@@ -1,0 +1,52 @@
+- hosts: all
+  tasks:
+    - name: 'create deploy user'
+      user: name=deploy state=present
+    - name: "update apt cache"
+      apt: update_cache=yes
+    - name: Add JRE ppa
+      apt_repository: repo=ppa:webupd8team/java state=present
+    - name: Automatically select the Oracle License
+      shell: echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
+    - name: Install JRE
+      apt: pkg=oracle-java8-installer state=latest update-cache=yes force=yes
+    - name: "install nginx"
+      apt: name=nginx state=present
+    - name: "install supervisor"
+      apt: name=supervisor state=present
+    - name: 'remove default nginx conf'
+      file: dest=/etc/nginx/sites-enabled/default state=absent
+    - name: 'upload hackerdict web nginx conf'
+      copy: src=hackerdict_nginx.conf dest=/etc/nginx/sites-enabled/
+      notify:
+        - nginx conf changed
+    - name: Ensure supervisord is running
+      service: name=supervisor state=running enabled=yes
+    - name: "install emacs"
+      apt: name=emacs state=present
+    - name: 'create user serkan'
+      user: name=serkan2 state=present
+      notify:
+        - user created
+    - file: path=/home/deploy/logs state=directory mode=0755
+    - name: 'upload hackerdict web supervisor conf'
+      copy: src=hackerdict_supervisor.conf dest=/etc/supervisor/conf.d/
+      notify:
+        - supervisor conf changed
+    - name: 'upload hackerdict datomic supervisor conf'
+      copy: src=hackerdict_datomic.conf dest=/etc/supervisor/conf.d/
+      notify:
+        - supervisor conf changed
+    # - name: 'upload uberjar'
+    #   copy: src=../hackerdict/target/hackerdict-0.1.0-SNAPSHOT-standalone.jar dest=/home/deploy owner=deploy group=deploy mode=0644
+    #   notify:
+    #     - uberjar file changed
+  handlers:
+    - name: user created
+      debug: msg="Running user created onsuccess handler"
+    - name: supervisor conf changed
+      command: supervisorctl reread && supervisorctl update
+    - name: uberjar file changed
+      command: supervisorctl reload hackerdict_web
+    - name: nginx conf changed
+      service: name=nginx state=reloaded

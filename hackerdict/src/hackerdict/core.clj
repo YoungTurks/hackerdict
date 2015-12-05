@@ -3,7 +3,12 @@
   (:require
    [clojure.java.io :as io]
    [clojure.pprint :as pp]
+   [alembic.still :refer [load-project]]
    [datomic.api :as d]))
+
+
+(comment
+  (load-project))
 
 
 (def uri "datomic:dev://localhost:4334/hello4")
