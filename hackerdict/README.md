@@ -1,5 +1,9 @@
 # hackerdict
 
+#### The community driven dictionary of hacker interests.
+
+---
+
 A [Heroku](http://www.heroku.com) web app using Compojure.
 
 This generated project has a few basics set up beyond the bare Compojure defaults:

@@ -1,5 +1,5 @@
 (defproject hackerdict "1.0.0-SNAPSHOT"
-  :description "FIXME: write description"
+  :description "The community driven dictionary of hacker interests."
   :url "http://hackerdict.herokuapp.com"
   :license {:name "FIXME: choose"
             :url "http://example.com/FIXME"}
