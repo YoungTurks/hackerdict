@@ -22,9 +22,11 @@
 (defn load-data []
   (db/create-or-update-user! {:username bot-user-name})
   (doseq [item-data (map get-info-for-item (git-data))]
-    (println (:description item-data))
-    (db/create-subject! (:description item-data) bot-user-name)))
+    (db/create-subject! (:name item-data) bot-user-name)
+    (db/add-entry! {:subject (:name item-data) :text (:description item-data) :username bot-user-name}
+    )))
 
 
+(load-data)
 ;; Load data using:
 ;; lein run -m hackerdict.scraper.transact/load-data
