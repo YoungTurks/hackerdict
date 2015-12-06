@@ -24,13 +24,11 @@
       service: name=supervisor state=running enabled=yes
     - name: "install emacs"
       apt: name=emacs state=present
-    - name: 'create user serkan'
-      user: name=serkan2 state=present
-      notify:
-        - user created
     - file: path=/home/deploy/logs state=directory mode=0755
     # - name: download leiningen boot script
     # get_url: dest=/home/deploy/bin  url=https://raw.github.com/technomancy/leiningen/stable/bin/lein
+    - name: 'cloning repo'
+      git: repo=git@github.com:YoungTurks/hackerdict.git dest=/home/deploy/hackerdict owner=deploy
     - name: 'upload hackerdict web supervisor conf'
       copy: src=hackerdict_supervisor.conf dest=/etc/supervisor/conf.d/
       notify:
@@ -48,8 +46,6 @@
     #   notify:
     #     - uberjar file changed
   handlers:
-    - name: user created
-      debug: msg="Running user created onsuccess handler"
     - name: supervisor conf changed
       command: supervisorctl reread && supervisorctl update
     - name: uberjar file changed
