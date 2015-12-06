@@ -22,7 +22,7 @@
 
 ;;pre-markdown for [word word ..]. Also prevent conflicts with original markup rule for links.
 (defn replace-multiple-world-link [text]
-  (clojure.string/replace text #"\[(.*?)\]([^\(])"
+  (clojure.string/replace text #"\[(.*?)\]([^\(]?)"
                           (fn [x] (let [gr2 (x 2) gr1 (x 1) conv (str "[" gr1 "]" "(/subject/"
                                                             (replace-spaces-with-url-quotes gr1) ")" gr2) ] conv)))
   )
