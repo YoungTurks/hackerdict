@@ -21,4 +21,3 @@ pom.xml.asc
 .hg/
 profiles.clj
 custom_profiles
-resources/public/cljsp
