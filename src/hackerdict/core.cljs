@@ -9,6 +9,7 @@
 ;; mock users: {:username "ustun" :name "Ustun Ozgur" :email "ustun@ustunozgur.com"}
 (def app-state (atom {:username js/HD_USERNAME
                       :sidebar-items mock-side-bar-data
+                      :form-subject "clojure"
                       :main-items mock-main-feed-data}))
 
                                   ;(print (str "app state is "@app-state))
@@ -28,8 +29,7 @@
 (defn current-user-handler [response]
   (print "got current user data")
   (swap! app-state update :username (fn [_] "deneme"))
-  (.log js/console (str response))
-  )
+  (.log js/console (str response)))
 
 
 
