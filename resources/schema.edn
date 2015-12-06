@@ -1,5 +1,8 @@
 [
-   ;; User schema
+   
+
+   ;;; User Schema
+
    {:db/id #db/id[:db.part/db]
     :db/ident :user/username
     :db/valueType :db.type/string
@@ -74,7 +77,9 @@
 
    ;; TODO: Bots: are they special users or are they entity types?
 
-   ;; User Action
+   
+
+   ;;; User Action
 
    {:db/id #db/id[:db.part/db]
     :db/ident :action/user
@@ -105,7 +110,9 @@
     :db/cardinality :db.cardinality/one
     :db.install/_attribute :db.part/db}
 
-   ;; Subject
+   
+
+   ;;; Subject Schema
 
    {:db/id #db/id[:db.part/db]
     :db/ident :subject/text
@@ -207,7 +214,9 @@
     :db/cardinality :db.cardinality/one
     :db.install/_attribute :db.part/db}
 
-   ;; Entry
+   
+
+   ;;; Entry Schema
 
    {:db/id #db/id[:db.part/db]
     :db/ident :entry/text
@@ -254,4 +263,4 @@
     :db/doc "An entry's secondary subjects"
     :db/cardinality :db.cardinality/many
     :db.install/_attribute :db.part/db}
-   ]
+]

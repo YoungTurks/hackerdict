@@ -1,5 +1,5 @@
 (ns hackerdict.web
-  (:require [compojure.core :refer [defroutes GET PUT POST DELETE ANY]]
+  (:require [compojure.core :refer [defroutes GET ANY]]
             [compojure.handler :refer [site]]
             [compojure.route :as route]
             [clojure.java.io :as io]
@@ -21,10 +21,6 @@
             [environ.core :refer [env]])
   (:gen-class))
 
-;; Initialization Calls
-
-
-
 ;; Private functions
 
 (defn- authenticated? [user pass]
@@ -44,7 +40,7 @@
     (rest/response {:body (str "Main Page \n"
                                "========= \n"
                                (when-let [token (:token session)]
-                                 "Welcome " (user/get-username token)))}))
+                                 (str "Welcome " (user/get-username token))))}))
 
   (ANY "/repl" {:as req}
        (drawbridge req))
