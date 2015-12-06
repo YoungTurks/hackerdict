@@ -48,13 +48,14 @@
          [:a
           {:onClick (fn [e]
                       (.preventDefault e)
+                      (.scrollTo js/window 0 0)
                       ((partial get-subject-data data) (:text subject-data)))}
           (:text subject-data)]]))
 
 
 (defn side-bar [data]
   (html [:div.side-bar.pure-u-1-3
-         [:div [:h3 "Recent Topics"]
+         [:div [:h3 "recent topics"]
           [:ul (map (partial subject data) (:sidebar-items @data))]]]))
 
 
