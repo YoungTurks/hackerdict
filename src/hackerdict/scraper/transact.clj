@@ -27,6 +27,7 @@
     )))
 
 
-(load-data)
+
+
 ;; Load data using:
 ;; lein run -m hackerdict.scraper.transact/load-data
