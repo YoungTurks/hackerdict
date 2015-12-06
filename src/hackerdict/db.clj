@@ -365,6 +365,15 @@
   (count (get-entries-for-subject-text subject-text)))
 
 
+(defn delete-subject-by-text [text]
+ (if-let [id (get-subject-id-by-text text)]
+   (d/transact (get-connection) [{:db/id #db/id[db.part/user],
+                                  :db/excise id}])))
+
+(defn delete-entry-by-id [id]
+ (d/transact (get-connection) [{:db/id #db/id[db.part/user],
+                                :db/excise id}]))
+
 (comment
   (get-entries)
   (get-entries-for-subject-text "Clojure")
