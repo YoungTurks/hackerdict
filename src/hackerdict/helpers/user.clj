@@ -1,4 +1,4 @@
-(ns hackerdict.user
+(ns hackerdict.helpers.user
   (:require [clojure.data.json :as json]
             [hackerdict.db :as db]
             [org.httpkit.client :as http]))

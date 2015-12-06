@@ -1,7 +1,7 @@
 (ns hackerdict.rest.auth
   (:require [compojure.core :refer [defroutes GET]]
-            [hackerdict.auth :as auth]
-            [hackerdict.user :as user]
+            [hackerdict.helpers.auth :as auth]
+            [hackerdict.helpers.user :as user]
             [hackerdict.util.rest :as rest]))
 
 (defroutes auth-routes

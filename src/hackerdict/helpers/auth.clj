@@ -1,4 +1,4 @@
-(ns hackerdict.auth
+(ns hackerdict.helpers.auth
   (:require [cemerick.url :refer [url-encode]]
             [environ.core :refer [env]]
             [org.httpkit.client :as http]
