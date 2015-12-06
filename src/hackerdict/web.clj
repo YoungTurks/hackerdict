@@ -39,6 +39,14 @@
         body (render-file "index.html" context)]
     (rest/html-response {:body body})))
 
+(use 'clojure.string)
+
+(defn subject-page [request]
+  (let [session (:session request)
+        context {:user (:user session) :production (env :production)
+                 :subject (second (split (:uri request) #"/subject/"))}
+        body (render-file "index.html" context)]
+    (rest/html-response {:body body})))
 
 (defroutes app
   #'auth-routes
@@ -47,8 +55,7 @@
 
   (GET "/" request home-page)
 
-  (GET "/subject/:subject-text" request home-page)
-
+  (GET "/subject/:subject-text" request subject-page)
 
   (ANY "/repl" {:as req}
        (drawbridge req))

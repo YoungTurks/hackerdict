@@ -14,6 +14,12 @@
       {% else %}
       window.HD_USERNAME = null;
       {% endif %}
+
+      {% if subject %}
+      window.HD_INITIAL_TOPIC = window.decodeURI("{{ subject }}");
+      {% else %}
+      window.HD_INITIAL_TOPIC = null;
+      {% endif %}
     </script>
 
     {% if production %}
