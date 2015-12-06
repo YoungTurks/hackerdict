@@ -342,8 +342,9 @@
   (defn to-entry-map [[id text username date-added processed-text]]
     {:subject subject-text :id id :text text :username username :date-added date-added :processed-text processed-text})
 
-  (print "Deneme")
-  (map to-entry-map
+  (sort-by
+   :date-added
+   (map to-entry-map
        (d/q '[:find ?e ?text ?username ?date-added ?processed-text
               :in $ ?subject-text
               :where
@@ -358,7 +359,7 @@
 
 
                ]
-             (get-latest-db) subject-text)))
+             (get-latest-db) subject-text))))
 
 (defn n-entries-for-subject-text [subject-text]
   (count (get-entries-for-subject-text subject-text)))
