@@ -11,7 +11,7 @@
                     "Thumbs up"]]]))
 
 (defn header [data]
-  (html [:div "HackerDict!"]))
+  (html [:div "HackerDict! Testing deploy"]))
 
 (defn subject [subject-data]
   (html [:li {:key (:subject-text subject-data)}
