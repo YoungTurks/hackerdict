@@ -4,20 +4,20 @@
 
 (def mock-side-bar-data
   [
-   {:subject-text "clojure" :n-entries-today 5 :n-entries-total 10}
-   {:subject-text "compojure" :n-entries-today 5 :n-entries-total 10}
-   {:subject-text "ring" :n-entries-today 5 :n-entries-total 10}
-   {:subject-text "selmer" :n-entries-today 5 :n-entries-total 10}
-   {:subject-text "luminus" :n-entries-today 5 :n-entries-total 10}
-   {:subject-text "lisp" :n-entries-today 5 :n-entries-total 10}
-   {:subject-text "rich hickey" :n-entries-today 5 :n-entries-total 10}
-   {:subject-text "om" :n-entries-today 5 :n-entries-total 10}
-   {:subject-text "om/next" :n-entries-today 5 :n-entries-total 10}
-   {:subject-text "hy" :n-entries-today 5 :n-entries-total 10}
-   {:subject-text "pixie" :n-entries-today 5 :n-entries-total 10}
-   {:subject-text "david nolen" :n-entries-today 5 :n-entries-total 10}
-   {:subject-text "significant people in clojure community" :n-entries-today 5 :n-entries-total 10}
-   {:subject-text "validation libraries" :n-entries-today 5 :n-entries-total 10}
+   {:text "clojure" :n-entries-today 5 :n-entries-total 10}
+   {:text "compojure" :n-entries-today 5 :n-entries-total 10}
+   {:text "ring" :n-entries-today 5 :n-entries-total 10}
+   {:text "selmer" :n-entries-today 5 :n-entries-total 10}
+   {:text "luminus" :n-entries-today 5 :n-entries-total 10}
+   {:text "lisp" :n-entries-today 5 :n-entries-total 10}
+   {:text "rich hickey" :n-entries-today 5 :n-entries-total 10}
+   {:text "om" :n-entries-today 5 :n-entries-total 10}
+   {:text "om/next" :n-entries-today 5 :n-entries-total 10}
+   {:text "hy" :n-entries-today 5 :n-entries-total 10}
+   {:text "pixie" :n-entries-today 5 :n-entries-total 10}
+   {:text "david nolen" :n-entries-today 5 :n-entries-total 10}
+   {:text "significant people in clojure community" :n-entries-today 5 :n-entries-total 10}
+   {:text "validation libraries" :n-entries-today 5 :n-entries-total 10}
    ])
 
 

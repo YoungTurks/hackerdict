@@ -8,12 +8,16 @@
 
 (defn add-entry
   "View fn for adding entry"
-  [{:keys [params session] :as request}]
-  (print (-> session :user :username))
-  (db/add-entry! {:subject (:subject params)
-                  :username (-> session :user :username)
-                  :text (:entry params)})
-  (redirect (str "/subject/" (url-encode (:subject params)))))
+  [{:keys [session] :as request}]
+  (let [username (-> session :user :username) params (-> request :body)]
+    (do
+      (print username)
+      (db/add-entry! {:subject (params "subject")
+                      :username username
+                      :text (params "text")})
+      (str "/subject/" (url-encode (params "subject")))
+     )
+    {:body "foo"}))
 
 (comment
   (add-entry {:session {:user {:username "ustun"}}
@@ -30,6 +34,3 @@
   (GET "/api/dict/subject/:text" [text :as {session :session}]
        (rest/response {:body {:subject text
                               :entries (db/get-entries-for-subject-text text)}})))
-
-
-;(comment (str ((wrap-transit-response {:fuck "that"}))))

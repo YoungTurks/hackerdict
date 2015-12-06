@@ -321,7 +321,7 @@
 
 
 (comment
-  (add-entry! {:subject "Clojure" :text "Clojure guzel bir dildir" :username "ustunozgur"})
+  (add-entry! {:subject "Clojure" :text "Clojure boktan bir dildir!!!" :username "ustunozgur"})
 
   (add-entry! {:subject "Clojure" :text "Clojure bir Lisp turevidir" :username "ustunozgur"})
 
