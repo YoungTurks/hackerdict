@@ -227,6 +227,14 @@
     :db.install/_attribute :db.part/db}
 
    {:db/id #db/id[:db.part/db]
+    :db/ident :entry/processed-text
+    :db/valueType :db.type/string
+    :db/fulltext true
+    :db/doc "An entry's processed contents where the in-site links and markdown are parsed"
+    :db/cardinality :db.cardinality/one
+    :db.install/_attribute :db.part/db}
+
+   {:db/id #db/id[:db.part/db]
     :db/ident :entry/date-added
     :db/valueType :db.type/instant
     :db/doc "A entry's added date"

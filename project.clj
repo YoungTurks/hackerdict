@@ -26,8 +26,10 @@
                  [ring/ring-devel "1.4.0"]
                  [ring/ring-jetty-adapter "1.4.0"]
                  [ring/ring-json "0.4.0"]
-                 [selmer "0.9.5"]]
+                 [selmer "0.9.5"]
+                 [markdown-clj "0.9.82"]]
   :clean-targets [:target-path "out" "resources/public/cljs"]
+
   :cljsbuild {
               :builds {:dev {
                              :source-paths ["src"]
