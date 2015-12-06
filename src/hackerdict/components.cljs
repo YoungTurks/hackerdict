@@ -75,6 +75,7 @@
          [:span.entry {:dangerouslySetInnerHTML {:__html (:processed-text entry-data)}}]
          [:div.entry-bottom
           [:span.username (:username entry-data)]
+          [:span.id (:id entry-data)]
           [:span.date (.fromNow (js/moment (:date-added entry-data)))]]]))
 
 (defn post-entry
