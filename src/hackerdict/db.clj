@@ -40,20 +40,20 @@
 ;; Database Connection
 ;;;;;;;;;;;;;;;;;
 
-(def conn (atom nil))
+; (def conn (atom nil))
 
-(def db (atom nil))
+; (def db (atom nil))
 
-(defn connect! []
-  (println "Connecting to Datomic uri " uri ".")
-  (reset! conn (d/connect uri)))
+;; (defn connect! []
+;;   (println "Connecting to Datomic uri " uri ".")
+;;   (reset! conn (d/connect uri)))
 
-(defn get-db! []
-  (println "Setting database of the connection " @conn ".")
-  (reset! db (d/db @conn)))
+;; (defn get-db! []
+;;   (println "Setting database of the connection " @conn ".")
+;;   (reset! db (d/db @conn)))
 
-(defn create-schema! []
-  (d/transact @conn schema))
+(defn create-schema []
+  (d/transact (get-connection) schema))
 
 
 ;;;;;;;;;;;;;;;;;

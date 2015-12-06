@@ -5,7 +5,6 @@
             [clojure.java.io :as io]
             [hackerdict.helpers.auth :as auth]
             [hackerdict.db :as db]
-            [hackerdict.helpers.user :as user]
             [hackerdict.rest.auth :refer [auth-routes]]
             [hackerdict.rest.user :refer [user-routes]]
             [hackerdict.rest.dict :refer [dict-routes]]
@@ -36,7 +35,7 @@
 
 (defn home-page [request]
   (let [session (:session request)
-        context {:user (:user session)}
+        context {:user (:user session) :production (env :production)}
         body (render-file "index.html" context)]
     (rest/html-response {:body body})))
 
@@ -64,6 +63,12 @@
         (rest/response {:status 500
                         :body (slurp (io/resource "500.html"))})))))
 
+
+(use 'ring.middleware.resource
+     'ring.middleware.content-type
+     'ring.middleware.not-modified)
+
+
 (defn wrap-app [app]
   ;; TODO: heroku config:add SESSION_SECRET=$RANDOM_16_CHARS
   (let [store (cookie/cookie-store {:key (env :session-secret)})]
@@ -71,17 +76,21 @@
         ((if (env :production)
            wrap-error-page
            trace/wrap-stacktrace))
+        (wrap-resource "public")
+        (wrap-content-type)
+        (wrap-not-modified)
         json/wrap-json-body
         json/wrap-json-response
         reload/wrap-reload
         (site {:session {:store store}}))))
 
 (defn -main [& [port]]
-  (db/connect!)
-  (db/get-db!)
-  (db/create-schema!)
+  (db/create-database)
+ ; (db/connect!)
+;  (db/get-db!)
+  (db/create-schema)
   (let [port (Integer. (or port (env :port) 5000))]
-    (jetty/run-jetty (wrap-app #'app) {:port port :join? false})))
+    (jetty/run-jetty (wrap-app #'app) {:port port :join? (env :production)})))
 
 ;; For interactive development:
 (comment

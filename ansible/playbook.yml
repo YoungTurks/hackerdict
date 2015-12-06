@@ -1,9 +1,11 @@
 - hosts: all
   tasks:
+    - name: 'create web group'
+      group: name=web state=present
     - name: 'create deploy user'
-      user: name=deploy state=present
-    - name: "update apt cache"
-      apt: update_cache=yes
+      user: name=deploy state=present groups=web
+    # - name: "update apt cache"
+    #   apt: update_cache=yes
     - name: Add JRE ppa
       apt_repository: repo=ppa:webupd8team/java state=present
     - name: Automatically select the Oracle License
@@ -16,6 +18,8 @@
       apt: name=supervisor state=present
     - name: 'remove default nginx conf'
       file: dest=/etc/nginx/sites-enabled/default state=absent
+    - name: 'upload supervisord conf'
+      copy: src=supervisord.conf dest=/etc/supervisor/
     - name: 'upload hackerdict web nginx conf'
       copy: src=hackerdict_nginx.conf dest=/etc/nginx/sites-enabled/
       notify:
@@ -24,11 +28,11 @@
       service: name=supervisor state=running enabled=yes
     - name: "install emacs"
       apt: name=emacs state=present
-    - name: 'create user serkan'
-      user: name=serkan2 state=present
-      notify:
-        - user created
     - file: path=/home/deploy/logs state=directory mode=0755
+    # - name: download leiningen boot script
+    # get_url: dest=/home/deploy/bin  url=https://raw.github.com/technomancy/leiningen/stable/bin/lein
+    # - name: 'cloning repo'
+      # git: repo=git@github.com:YoungTurks/hackerdict.git dest=/home/deploy/hackerdict owner=deploy
     - name: 'upload hackerdict web supervisor conf'
       copy: src=hackerdict_supervisor.conf dest=/etc/supervisor/conf.d/
       notify:
@@ -37,17 +41,15 @@
       copy: src=hackerdict_datomic.conf dest=/etc/supervisor/conf.d/
       notify:
         - supervisor conf changed
-    - name: 'upload hackerdict datomic supervisor conf for heroku'
-      copy: src=hackerdict_datomic_for_heroku_emrehan.conf dest=/etc/supervisor/conf.d/
-      notify:
-        - supervisor conf changed
+    # - name: 'upload hackerdict datomic supervisor conf for heroku'
+    #   copy: src=hackerdict_datomic_for_heroku_emrehan.conf dest=/etc/supervisor/conf.d/
+    #   notify:
+    #     - supervisor conf changed
     # - name: 'upload uberjar'
     #   copy: src=../target/hackerdict-0.1.0-SNAPSHOT-standalone.jar dest=/home/deploy owner=deploy group=deploy mode=0644
     #   notify:
     #     - uberjar file changed
   handlers:
-    - name: user created
-      debug: msg="Running user created onsuccess handler"
     - name: supervisor conf changed
       command: supervisorctl reread && supervisorctl update
     - name: uberjar file changed
