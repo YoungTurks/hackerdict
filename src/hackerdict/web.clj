@@ -57,6 +57,17 @@
 
   (GET "/subject/:subject-text" request subject-page)
 
+  (GET "/delete-subject/:subject-text" [subject-text]
+       (db/delete-subject-by-text subject-text)
+       (rest/response {:body "ok"})      )
+
+  (GET "/delete-entry/:entry-id" [entry-id]
+       (db/delete-entry-by-id entry-id)
+       (rest/response {:body "ok"})
+       )
+
+
+
   (ANY "/repl" {:as req}
        (drawbridge req))
 

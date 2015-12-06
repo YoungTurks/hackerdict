@@ -370,9 +370,17 @@
    (d/transact (get-connection) [{:db/id #db/id[db.part/user],
                                   :db/excise id}])))
 
+(comment
+
+  (delete-subject-by-text "ustun ozgur"))
+
 (defn delete-entry-by-id [id]
  (d/transact (get-connection) [{:db/id #db/id[db.part/user],
                                 :db/excise id}]))
+
+(comment
+
+  (delete-entry-by-id 175921860461062))
 
 (comment
   (get-entries)

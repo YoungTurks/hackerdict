@@ -49,6 +49,7 @@ li.entry {
 
 li.entry span.id {
   display: none;
+  /* margin-right: 3px; */
 }
 li.entry h1 , li.entry h2, li.entry h3 {
   font-size: 1em;
