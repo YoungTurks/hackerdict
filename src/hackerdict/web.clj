@@ -47,9 +47,7 @@
                                  (str "User token is " token ".\n"
                                       "Username is " (user/get-username token) ".\n" 
                                       "Name is " (user/get-name token) ".\n" 
-                                      "Email is " (user/get-email token) ".\n"))
-                               "========= \n"
-                               "All users are " (db/get-user-names))}))
+                                      "Email is " (user/get-email token) ".\n")))}))
 
   (ANY "/repl" {:as req}
        (drawbridge req))
