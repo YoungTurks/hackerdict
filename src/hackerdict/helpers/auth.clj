@@ -8,16 +8,17 @@
    {:client-id        (env :github-client-id)
     :client-secret    (env :github-client-secret)
     :authorize-uri    "https://github.com/login/oauth/authorize"
-    :redirect-uri     "http://hackerdict.herokuapp.com/auth"
+    :redirect-uri     (str (:app-host env) "/auth")
     :access-token-uri "https://github.com/login/oauth/access_token"
-    :scope            "user:email"})      
+    :scope            "user:email"})
 
+(:app-host env)
 (defn random-state []
   (let [chars (map char (range 65 91))]
     (reduce str (take 10 (repeatedly #(rand-nth chars))))))
 
 (defn- params->map [params]
-  (clojure.walk/keywordize-keys 
+  (clojure.walk/keywordize-keys
     (codec/form-decode params)))
 
 (defn authorize-uri [state]

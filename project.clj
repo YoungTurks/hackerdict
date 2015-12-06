@@ -22,7 +22,8 @@
                  [ring/ring-codec "1.0.0"]
                  [ring/ring-devel "1.4.0"]
                  [ring/ring-jetty-adapter "1.4.0"]
-                 [ring/ring-json "0.4.0"]]
+                 [ring/ring-json "0.4.0"]
+                 [selmer "0.9.5"]]
   :min-lein-version "2.0.0"
   :plugins [[lein-environ "1.0.1"]]
   :uberjar-name "hackerdict-standalone.jar"

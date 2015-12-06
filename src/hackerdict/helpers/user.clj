@@ -25,7 +25,15 @@
       (get (first (filter #(get % "primary") (json/read-str (:body @resp)))) "email"))))
 
 (defn upsert-user! [token]
-  (db/create-or-update-user! {:github-token token
-                              :username     (get-username token)
-                              :name         (get-name token)
-                              :email        (get-email token)}))
+  (let [username (get-username token)
+        name (get-name token)
+        email (get-email token)]
+    (db/create-or-update-user! {:github-token    token
+                                :username        username
+                                :github-username username
+                                :name            name
+                                :email           email})
+    {:username username
+     :name name
+     :email email})
+  )

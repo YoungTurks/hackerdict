@@ -4,3 +4,9 @@
   [m]
   "have default status or headers but they can be overridden"
   (merge {:status 200 :headers {"Content-Type" "text/plain"}} m))
+
+
+(defn html-response
+  [m]
+  "have default status or headers but they can be overridden"
+  (merge {:status 200 :headers {"Content-Type" "text/html"}} m))

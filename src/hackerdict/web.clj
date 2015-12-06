@@ -8,6 +8,7 @@
             [hackerdict.helpers.user :as user]
             [hackerdict.rest.auth :refer [auth-routes]]
             [hackerdict.rest.user :refer [user-routes]]
+            [hackerdict.rest.dict :refer [dict-routes]]
             [hackerdict.util.rest :as rest]
             [ring.adapter.jetty :as jetty]
             [ring.middleware.basic-authentication :as basic]
@@ -18,7 +19,8 @@
             [ring.middleware.stacktrace :as trace]
             [ring.util.response :as response]
             [cemerick.drawbridge :as drawbridge]
-            [environ.core :refer [env]])
+            [environ.core :refer [env]]
+            [selmer.parser :refer [render-file]])
   (:gen-class))
 
 ;; Private functions
@@ -32,19 +34,23 @@
       (session/wrap-session)
       (basic/wrap-basic-authentication authenticated?)))
 
+(defn home-page [request]
+  (let [session (:session request)
+        context {:user (:user session)}
+        body (render-file "index.html" context)]
+    (rest/html-response {:body body})))
+
+
 (defroutes app
   #'auth-routes
   #'user-routes
+  #'dict-routes
 
-  (GET "/" {session :session}
-    (rest/response {:body (str "Main Page \n"
-                               "========= \n"
-                               (when-let [token (:token session)]
-                                 (str "Welcome " (user/get-username token))))}))
+  (GET "/" request home-page)
 
   (ANY "/repl" {:as req}
        (drawbridge req))
-                    
+
   (ANY "*" []
     (route/not-found (slurp (io/resource "404.html")))))
 
@@ -75,5 +81,7 @@
     (jetty/run-jetty (wrap-app #'app) {:port port :join? false})))
 
 ;; For interactive development:
-;; (.stop server)
-;; (def server (-main))
+(comment
+  (def server (-main))
+  (.stop server)
+  )

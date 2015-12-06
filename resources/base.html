@@ -1,0 +1,12 @@
+
+
+{% if user %}
+Welcome{{ user.username}}
+{% else %}
+You are not logged in
+{% endif %}
+
+
+{% block content %}
+This is the base page
+{% endblock content %}

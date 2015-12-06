@@ -11,18 +11,19 @@
                       :body   "Already logged in."})
       (let [state (auth/random-state)
             uri (auth/authorize-uri state)]
-         (rest/response {:status  302 
+         (rest/response {:status  302
                          :headers {"Location" uri}
                          :session (assoc session :state state)}))))
-  
+
   (GET "/auth" {params :params session :session}
     (if (= (:state params) (:state session))
       (if-let [token (auth/access-token (:code params))]
         (do
-          (user/upsert-user! token)
-          (rest/response {:status  302 
-                          :headers {"Location" "/"}
-                          :session (assoc (dissoc session :state) :token token)}))
+          (let [user (user/upsert-user! token)]
+            (print "deneme")
+            (rest/response {:status  302
+                            :headers {"Location" "/"}
+                            :session (assoc (dissoc session :state) :mymap {:foo "bar"} :token token :user user)})))
         (rest/response {:status 500
                         :body   "Cannot get token."
                         :session (dissoc session :state)}))
@@ -32,8 +33,8 @@
 
   (GET "/logout" {session :session}
     (if-let [token (:token session)]
-      (rest/response {:status  302 
+      (rest/response {:status  302
                       :headers {"Location" "/"}
                       :session (dissoc session :token)})
-      (rest/response {:status 400 
+      (rest/response {:status 400
                       :body   "Not logged in."}))))

@@ -24,8 +24,7 @@
 (def mock-user-data
   {:username "ustunozgur"
    :github-username "ustunozgur"
-   :first-name "Ustun"
-   :last-name "Ozgur"
+   :name "Ustun Ozgur"
    :email "ustun@ustunozgur.com"})
 
 

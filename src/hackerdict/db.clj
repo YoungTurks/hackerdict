@@ -2,12 +2,11 @@
   (:import datomic.Util java.util.Random)
   (:require [clojure.java.io :as io]
             [datomic.api :as d]
+            [environ.core :refer [env]]
             [hackerdict.util.common :refer [clean-nil-vals]]))
 
 
-(def uri "datomic:dev://94.237.25.78:8334/test")
-
-;(def uri  "datomic:sql://hackerdict?jdbc:postgresql://localhost:5432/datomic?user=datomic&password=datomic")
+(def uri (:datomic-uri env))
 
 ;;;;;;;;;;;;;;;;;
 ;; Maintenance and Migration Functions
@@ -138,7 +137,7 @@
 
 
 (defn get-user-by-username
-  "doc-string"
+  "Gets a user by username"
   [username]
   (d/q '[:find (pull ?e [*]) .
          :in $ ?username
@@ -146,7 +145,7 @@
        (get-latest-db) username))
 
 (comment
-  (get-user-by-username "ustunozgur")
+  (get-user-by-username "ustun")
 
   (create-or-update-user! {:username "ustunozgur" :github-token "my github token"})
 
@@ -173,7 +172,7 @@
 (comment
   (get-user-names)
 
-  (get-user-names)
+  (get-user-usernames)
 
   (get-user-emails))
 
@@ -259,6 +258,19 @@
      :where [?e :subject/text]]
    (get-latest-db)))
 
+(defn get-latest-subjects []
+  (defn subject-fn
+    [subject]
+    {:text (:subject/text subject)
+     :date-last-entry (:subject/date-last-entry subject)}
+    )
+  (map subject-fn (vec (reverse (sort-by :subject/date-last-entry (get-subjects))))))
+
+(comment
+  (sort-by :db/id (get-latest-subjects))
+  (get-latest-subjects)
+  )
+
 ;;;;;;;;;;;;
 ;; Entry functions
 ;;;;;;;;;;;;
@@ -270,7 +282,8 @@
    (get-latest-db)))
 
 (comment
-  (count (get-subjects))
+  (use 'clojure.pprint)
+  (pprint (get-entries))
 
   (map :entry/text (get-entries)))
 
@@ -312,7 +325,7 @@
 
   (add-entry! {:subject "Clojure" :text "Clojure bir Lisp turevidir" :username "ustunozgur"})
 
-  (add-entry! {:subject "Clojure" :text "Clojure berbat bir dildir" :username "ustunozgur"}))
+  (add-entry! {:subject "Clojure" :text "Clojure berbat bir dildir" :username "ustun"}))
 
 
 (defn lower
@@ -326,19 +339,32 @@
 
 
 (defn get-entries-for-subject-text [subject-text]
-  (d/q '[:find ?e ?text
-         :in $ ?subject-text
-         :where
-         [?e :entry/text ?text]
-         [?e :entry/subject ?s]
-         [?s (comp lower :subject/text) ?subject-text]]
-       (get-latest-db) subject-text))
+
+  (defn to-entry-map [[id text username date-added]]
+    {:subject subject-text :id id :text text :username username :date-added date-added})
+
+  (print "Deneme")
+  (map to-entry-map
+       (d/q '[:find ?e ?text ?username ?date-added
+              :in $ ?subject-text
+              :where
+              [?e :entry/text ?text]
+              [?e :entry/subject ?s]
+              [?s :subject/text ?subject-text]
+              [?e :entry/creator ?u]
+              [?u :user/username ?username]
+              [?e :entry/date-added ?date-added]
+                                        ; [?e :entry/date-updated ?date-updated]
+]
+            (get-latest-db) subject-text)))
 
 (defn n-entries-for-subject-text [subject-text]
   (count (get-entries-for-subject-text subject-text)))
 
 
 (comment
+  (get-entries)
+  (get-entries-for-subject-text "Clojure")
   (n-entries-for-subject-text "Clojure"))
 
 
