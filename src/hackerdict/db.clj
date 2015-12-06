@@ -324,7 +324,7 @@
 
 
 (defn add-entry! [{:keys [text subject  username]}]
-  (let [subject-id (get-or-create-subject! subject username)]
+  (let [subject-id (get-or-create-subject! (.toLowerCase subject) username)]
     (add-entry-with-subject-id! subject-id text username)
     (update-date-last-entry-for-subject-id! subject-id)))
 
