@@ -28,7 +28,7 @@
                          [:h2 [:a {:href "/"} "hacker-dict"]]
                          [:span "dictionary for programmers by programmers"]
                          ]
-         [:div.pure-u-1-3 [:form {:action "/subject/" :onSubmit search-handler} [:input#search {:name "subject" :placeholder "go to a subject"}]]]
+         [:div.pure-u-1-3 [:form {:action "/subject/" :onSubmit search-handler} [:input#search {:name "subject" :placeholder "search for a subject"}]]]
 
          (login-logout data)]))
 

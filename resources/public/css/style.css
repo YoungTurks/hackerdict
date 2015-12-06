@@ -2,7 +2,7 @@ body {
   /* background-color: green; */
   max-width: 1200px;
   margin: 0 auto;
-
+  background: #eee;
   padding: 20px;
 }
 
@@ -11,12 +11,22 @@ header {
   color: darkblue;
 }
 
+
+header h2 {
+  margin: 0;
+  margin-bottom: 16px;
+}
 header a {
   text-decoration: none;
 }
 
 header a:hover {
   text-decoration: underline;
+}
+
+header a:visited {
+  text-decoration: underline;
+  color: darkblue;
 }
 
 div.main {
@@ -85,6 +95,17 @@ form.entry-form textarea{
   margin-bottom: 10px;
 }
 
+div.login-logout {
+  text-align: right;
+}
+
 div.login-logout .username {
   margin-right: 10px;
+
+}
+
+
+#search {
+  width: 400px;
+  padding: 5px;
 }
