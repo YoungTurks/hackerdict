@@ -4,6 +4,7 @@
             [compojure.route :as route]
             [clojure.java.io :as io]
             [hackerdict.auth :as auth]
+            [hackerdict.rest.user :refer [user-routes]]
             [ring.adapter.jetty :as jetty]
             [ring.middleware.basic-authentication :as basic]
             [ring.middleware.reload :as reload]
@@ -24,20 +25,8 @@
       (basic/wrap-basic-authentication authenticated?)))
 
 (defroutes app
-  (ANY "/repl" {:as req}
-       (drawbridge req))
-  
-  (GET "/" {session :session}
-    {:status 200
-     :headers {"Content-Type" "text/plain"}
-     :body (str "Main Page \n"
-                "========= \n"
-              (when-let [token (:token session)] 
-                (str "User token is " token ".\n"
-                     "Username is " (auth/get-username token) ".\n" 
-                     "Name is " (auth/get-name token) ".\n" 
-                     "Email is " (auth/get-email token) ".\n")))})
-  
+  #'user-routes
+
   (GET "/login" {session :session}
     (if-let [token (:token session)]
       {:status 404
@@ -71,6 +60,20 @@
        :headers {"Content-Type" "text/plain"}
        :body    "Sessions doesn't match."}))
 
+  (ANY "/repl" {:as req}
+       (drawbridge req))
+  
+  (GET "/" {session :session}
+    {:status 200
+     :headers {"Content-Type" "text/plain"}
+     :body (str "Main Page \n"
+                "========= \n"
+              (when-let [token (:token session)] 
+                (str "User token is " token ".\n"
+                     "Username is " (auth/get-username token) ".\n" 
+                     "Name is " (auth/get-name token) ".\n" 
+                     "Email is " (auth/get-email token) ".\n")))})
+  
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
 
