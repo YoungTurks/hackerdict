@@ -1,12 +1,17 @@
 /target
 /classes
 /checkouts
+.idea
+*.iml
 pom.xml
+figwheel_server.log
+.DS_Store
 *jar
 /.lein-env
 /checkouts
 /.env
 pom.xml
+out
 pom.xml.asc
 *.jar
 *.class
