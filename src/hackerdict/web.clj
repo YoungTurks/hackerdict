@@ -43,11 +43,8 @@
   (GET "/" {session :session}
     (rest/response {:body (str "Main Page \n"
                                "========= \n"
-                               (when-let [token (:token session)] 
-                                 (str "User token is " token ".\n"
-                                      "Username is " (user/get-username token) ".\n" 
-                                      "Name is " (user/get-name token) ".\n" 
-                                      "Email is " (user/get-email token) ".\n")))}))
+                               (when-let [token (:token session)]
+                                 "Welcome " (user/get-username token)))}))
 
   (ANY "/repl" {:as req}
        (drawbridge req))
