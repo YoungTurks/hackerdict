@@ -21,6 +21,7 @@
                  [org.clojure/tools.nrepl "0.2.12"]
                  [ring-basic-authentication "1.0.5"]
                  [ring/ring-codec "1.0.0"]
+                 [cljsjs/moment "2.10.6-0"]
                  [ring/ring-devel "1.4.0"]
                  [ring/ring-jetty-adapter "1.4.0"]
                  [ring/ring-json "0.4.0"]

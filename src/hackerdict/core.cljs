@@ -5,8 +5,10 @@
    [hackerdict.components :refer [like-seymore main]]))
 
 (enable-console-print!)
-
-(def app-state (atom { :likes 0 :sidebar-items mock-side-bar-data :main-items mock-main-feed-data}))
+;; mock users: {:username "ustun" :name "Ustun Ozgur" :email "ustun@ustunozgur.com"}
+(def app-state (atom {:username js/HD_USERNAME
+                      :sidebar-items mock-side-bar-data
+                      :main-items mock-main-feed-data}))
 
 
 (defn handler [response]
