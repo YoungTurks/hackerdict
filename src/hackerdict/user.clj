@@ -26,4 +26,6 @@
 
 (defn upsert-user! [token]
   (db/create-or-update-user! {:github-token token
-                              :username     (get-username token)}))
+                              :username     (get-username token)
+                              :name         (get-name token)
+                              :email        (get-email token)}))

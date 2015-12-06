@@ -77,6 +77,7 @@
 (defn -main [& [port]]
   (db/connect!)
   (db/get-db!)
+  (db/create-schema!)
   (let [port (Integer. (or port (env :port) 5000))]
     (jetty/run-jetty (wrap-app #'app) {:port port :join? false})))
 

@@ -26,7 +26,6 @@
 (defn get-latest-db []
   (d/db (get-connection)))
 
-
 (defn create-schema []
   (d/transact (get-connection) schema))
 
@@ -53,6 +52,10 @@
   (println "Setting database of the connection " @conn ".")
   (reset! db (d/db @conn)))
 
+(defn create-schema! []
+  (d/transact @conn schema))
+
+
 ;;;;;;;;;;;;;;;;;
 ;; User functions
 ;;;;;;;;;;;;;;;;;
@@ -69,10 +72,9 @@
 
 (defn create-or-update-user
   "Creates or updates user for a given user map. The username field is required in the usermap. Other fields are optional."
-  [{:keys [username first-name last-name email github-username github-token]}]
+  [{:keys [username name email github-username github-token]}]
   (let [shared-map {:user/username username
-                    :user/first-name first-name
-                    :user/last-name last-name
+                    :user/name name
                     :user/email email
                     :user/github-username github-username
                     :user/github-token github-token}
@@ -114,7 +116,7 @@
 (defn get-user-some-predefined-data
   "doc-string"
   []
-  (d/q `[:find [(pull ?e [:user/username :user/email :user/first-name]) ...]
+  (d/q `[:find [(pull ?e [:user/username :user/email :user/name]) ...]
          :where [?e :user/username]]
        (get-latest-db)))
 
@@ -149,11 +151,11 @@
 
   (pprint (first (get-user-all-data))))
 
-(defn get-user-first-names
+(defn get-user-names
   "doc-string"
   []
   (d/q '[:find [?n ...]
-         :where [?e :user/first-name ?n]]
+         :where [?e :user/name ?n]]
        (get-latest-db)))
 
 
@@ -170,7 +172,7 @@
 (comment
   (get-user-names)
 
-  (get-user-first-names)
+  (get-user-names)
 
   (get-user-emails))
 
@@ -180,13 +182,13 @@
 
 
 (comment
-  (create-or-update-user {:username "serkanozer" :first-name "SERKAN" })
+  (create-or-update-user {:username "serkanozer" :name "SERKAN" })
 
-  (add-user! {:username "serkanozer" :first-name "SERKAN"})
+  (add-user! {:username "serkanozer" :name "SERKAN"})
 
-  (create-or-update-user! {:username "koraygulay" :first-name "Koray"})
+  (create-or-update-user! {:username "koraygulay" :name "Koray"})
 
-  (add-user! {:username "ustunozgur" :first-name "Ustun" :last-name "Ozgur" :email "ustun@ustunozgur.com"}))
+  (add-user! {:username "ustunozgur" :name "Ustun Ozgur" :email "ustun@ustunozgur.com"}))
 
 
 ;;;;;;;;;;;;;;;;;;;

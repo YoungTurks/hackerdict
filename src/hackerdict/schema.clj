@@ -22,18 +22,10 @@
     :db.install/_attribute :db.part/db}
 
    {:db/id #db/id[:db.part/db]
-    :db/ident :user/first-name
+    :db/ident :user/name
     :db/valueType :db.type/string
     :db/fulltext true
-    :db/doc "A user's first name"
-    :db/cardinality :db.cardinality/one
-    :db.install/_attribute :db.part/db}
-
-   {:db/id #db/id[:db.part/db]
-    :db/ident :user/last-name
-    :db/valueType :db.type/string
-    :db/fulltext true
-    :db/doc "A user's last name"
+    :db/doc "A user's name"
     :db/cardinality :db.cardinality/one
     :db.install/_attribute :db.part/db}
 
