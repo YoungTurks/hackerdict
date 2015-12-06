@@ -9,7 +9,7 @@
 ;; mock users: {:username "ustun" :name "Ustun Ozgur" :email "ustun@ustunozgur.com"}
 (def app-state (atom {:username js/HD_USERNAME
                       :sidebar-items mock-side-bar-data
-                      :form-subject "clojure"
+                      :form-subject "hacker-dict"
                       :main-items mock-main-feed-data}))
 
                                   ;(print (str "app state is "@app-state))
@@ -36,7 +36,7 @@
 (GET "/api/dict/latest-subjects" {:handler latest-subjects-handler :response-format :json
          :keywords? true})
 
-(GET (str "/api/dict/subject/" (url-encode "clojure")) {:handler subject-entries-handler
+(GET (str "/api/dict/subject/" (url-encode "hacker-dict")) {:handler subject-entries-handler
                                                         :response-format :json
          :keywords? true})
 
