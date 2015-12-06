@@ -4,6 +4,8 @@
             [compojure.route :as route]
             [clojure.java.io :as io]
             [hackerdict.auth :as auth]
+            [hackerdict.db :as db]
+            [hackerdict.user :as user]
             [hackerdict.rest.auth :refer [auth-routes]]
             [hackerdict.rest.user :refer [user-routes]]
             [hackerdict.util.rest :as rest]
@@ -18,6 +20,12 @@
             [cemerick.drawbridge :as drawbridge]
             [environ.core :refer [env]])
   (:gen-class))
+
+;; Initialization Calls
+
+
+
+;; Private functions
 
 (defn- authenticated? [user pass]
   ;; TODO: heroku config:add REPL_USER=[...] REPL_PASSWORD=[...]
@@ -37,9 +45,11 @@
                                "========= \n"
                                (when-let [token (:token session)] 
                                  (str "User token is " token ".\n"
-                                      "Username is " (auth/get-username token) ".\n" 
-                                      "Name is " (auth/get-name token) ".\n" 
-                                      "Email is " (auth/get-email token) ".\n")))}))
+                                      "Username is " (user/get-username token) ".\n" 
+                                      "Name is " (user/get-name token) ".\n" 
+                                      "Email is " (user/get-email token) ".\n"))
+                               "========= \n"
+                               "All users are " (db/get-user-names))}))
 
   (ANY "/repl" {:as req}
        (drawbridge req))
@@ -67,6 +77,8 @@
         (site {:session {:store store}}))))
 
 (defn -main [& [port]]
+  (db/connect!)
+  (db/get-db!)
   (let [port (Integer. (or port (env :port) 5000))]
     (jetty/run-jetty (wrap-app #'app) {:port port :join? false})))
 

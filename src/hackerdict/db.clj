@@ -6,7 +6,7 @@
             [clojure.java.io :as io]))
 
 
-(def uri "datomic:dev://localhost:4334/test2")
+(def uri "datomic:dev://94.237.25.78:8334/test")
 
 ;(def uri  "datomic:sql://hackerdict?jdbc:postgresql://localhost:5432/datomic?user=datomic&password=datomic")
 
@@ -19,7 +19,6 @@
 
 (defn delete-database []
   (d/create-database uri))
-
 
 (defn get-connection []
   (d/connect uri))
@@ -36,6 +35,23 @@
   (create-database)
   (create-schema)
   )
+
+
+;;;;;;;;;;;;;;;;;
+;; Database Connection
+;;;;;;;;;;;;;;;;;
+
+(def conn (atom nil))
+
+(def db (atom nil))
+
+(defn connect! []
+  (println "Connecting to Datomic uri " uri ".")
+  (reset! conn (d/connect uri)))
+
+(defn get-db! []
+  (println "Setting database of the connection " @conn ".")
+  (reset! db (d/db @conn)))
 
 ;;;;;;;;;;;;;;;;;
 ;; User functions

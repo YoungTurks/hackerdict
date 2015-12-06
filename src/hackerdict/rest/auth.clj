@@ -1,6 +1,7 @@
 (ns hackerdict.rest.auth
   (:require [compojure.core :refer [defroutes GET]]
             [hackerdict.auth :as auth]
+            [hackerdict.user :as user]
             [hackerdict.util.rest :as rest]))
 
 (defroutes auth-routes
@@ -17,9 +18,11 @@
   (GET "/auth" {params :params session :session}
     (if (= (:state params) (:state session))
       (if-let [token (auth/access-token (:code params))]
-        (rest/response {:status  302 
-                        :headers {"Location" "/"}
-                        :session (assoc (dissoc session :state) :token token)})
+        (do
+          (user/upsert-user! token)
+          (rest/response {:status  302 
+                          :headers {"Location" "/"}
+                          :session (assoc (dissoc session :state) :token token)}))
         (rest/response {:status 500
                         :body   "Cannot get token."
                         :session (dissoc session :state)}))
