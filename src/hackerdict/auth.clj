@@ -40,17 +40,23 @@
                   :as          :text})]
     (:access_token (params->map (:body @resp)))))
 
-(defn get-email [token]
+(defn get-username [token]
   (when token
     (let [resp (http/get "https://api.github.com/user"
                          {:oauth-token token
                           :as :text})]
-    (println (json/read-str (:body @resp)))
-      (get (json/read-str (:body @resp)) "email"))))
+      (get (json/read-str (:body @resp)) "login"))))
 
-; (defn get-email [token]
-;   (when token
-;     (let [resp (http/get "https://api.github.com/user/emails"
-;                          {:oauth-token token
-;                           :as :text})]
-;       (get (first (filter #(get % "primary") (json/read-str (:body @resp)))) "email"))))
+(defn get-name [token]
+  (when token
+    (let [resp (http/get "https://api.github.com/user"
+                         {:oauth-token token
+                          :as :text})]
+      (get (json/read-str (:body @resp)) "name"))))
+
+(defn get-email [token]
+  (when token
+    (let [resp (http/get "https://api.github.com/user/emails"
+                         {:oauth-token token
+                          :as :text})]
+      (get (first (filter #(get % "primary") (json/read-str (:body @resp)))) "email"))))

@@ -34,6 +34,8 @@
                 "========= \n"
               (when-let [token (:token session)] 
                 (str "User token is " token ".\n"
+                     "Username is " (auth/get-username token) ".\n" 
+                     "Name is " (auth/get-name token) ".\n" 
                      "Email is " (auth/get-email token) ".\n")))})
   
   (GET "/login" {session :session}
