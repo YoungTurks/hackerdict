@@ -199,7 +199,7 @@
 
 (defn create-subject [subject username]
   {:db/id #db/id[:db.part/user]
-   :subject/text subject
+   :subject/text (.toLowerCase subject)
    :subject/date-added (java.util.Date.)
    :subject/creator (get-user-id-by-username username)})
 
