@@ -1,7 +1,7 @@
 - hosts: all
   tasks:
     - name: 'create deploy user'
-      user: name=deploy state=present
+      user: name=deploy state=present groups=web
     - name: "update apt cache"
       apt: update_cache=yes
     - name: Add JRE ppa
@@ -16,6 +16,8 @@
       apt: name=supervisor state=present
     - name: 'remove default nginx conf'
       file: dest=/etc/nginx/sites-enabled/default state=absent
+    - name: 'upload supervisord conf'
+      copy: src=supervisord.conf dest=/etc/supervisor/
     - name: 'upload hackerdict web nginx conf'
       copy: src=hackerdict_nginx.conf dest=/etc/nginx/sites-enabled/
       notify:
