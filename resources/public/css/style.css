@@ -1,5 +1,7 @@
 body {
   /* background-color: green; */
+  max-width: 1200px;
+  margin: 0 auto;
 
   padding: 20px;
 }
@@ -63,13 +65,24 @@ li.subject:hover {
   text-decoration: underline;
 }
 
+form.entry-form {
+  width: 100%;
+  border: 1px dashed grey;
+  padding: 20px;
+}
+form.entry-form h2 {
+  margin-top: 0;
+}
 form.entry-form input{
-  width: 400px;
+  /* width: 400px; */
+  width: 100%;
 }
 
 form.entry-form textarea{
-  width: 400px;
-
+  /* width: 400px; */
+  width: 100%;
+  height: 200px;
+  margin-bottom: 10px;
 }
 
 div.login-logout .username {

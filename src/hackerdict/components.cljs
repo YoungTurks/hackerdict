@@ -17,10 +17,19 @@
            [:div [:a.pure-button {:href "/login"} "Login/Register"]])]))
 
 
+(defn search-handler [e]
+  (.preventDefault e)
+  (let [target-uri (str "/subject/" (.-value (.getElementById js/document "search")))]
+    (set! (.-location js/window) target-uri)))
+
 (defn header [data]
-  (html [:header.pure-g [:div.pure-u-2-3
+  (html [:header.pure-g
+         [:div.pure-u-1-3
                          [:h2 [:a {:href "/"} "hacker-dict"]]
-                         [:span "dictionary for programmers by programmers"]]
+                         [:span "dictionary for programmers by programmers"]
+                         ]
+         [:div.pure-u-1-3 [:form {:action "/subject/" :onSubmit search-handler} [:input#search {:name "subject" :placeholder "go to a subject"}]]]
+
          (login-logout data)]))
 
 (defn subject-entries-handler [data subject-text response]
@@ -85,11 +94,12 @@
                                         ;(swap! data update :form-subject (fn [_] ""))
                                         )
                              }))}
+         [:h2 "add an entry"]
          [:label {:for "subject"} "Subject"]
          [:input {:name "subject"
                   :autoComplete false
                   :onChange (fn [e]
-                              (swap! data update :form-subject (fn [_] (.-value (.-target e))))
+                              (swap! data update :form-subject (fn [_] (.toLowerCase (.-value (.-target e)))))
                               )
                   :value (:form-subject @data) :placeholder "Subject (a library, a language, phrase)"}]
          [:label {:for "entry"} "Entry"]
