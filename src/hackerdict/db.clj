@@ -3,7 +3,7 @@
   (:require [clojure.java.io :as io]
             [datomic.api :as d]
             [environ.core :refer [env]]
-            [hackerdict.util.common :refer [clean-nil-vals]]))
+            [hackerdict.util.common :refer [clean-nil-vals process-text]]))
 
 
 (def uri (:datomic-uri env))
@@ -287,12 +287,21 @@
 
   (map :entry/text (get-entries)))
 
+
+
 (defn add-entry-with-subject-id [subject-id text username]
   {:db/id #db/id[:db.part/user]
    :entry/text text
+   :entry/processed-text (process-text text)
    :entry/creator (get-user-id-by-username username)
    :entry/date-added (java.util.Date.)
    :entry/subject subject-id})
+
+(comment (def deneme-id (:db/id (get-subject-by-text "deneme")))
+         (add-entry-with-subject-id deneme-id "#java is cool but #clojure is not" "ustunozgur")
+         (add-entry-with-subject-id deneme-id "[java vs clojure] blabla" "ustunozgur")
+
+         )
 
 
 (defn add-entry-with-subject-id! [subject-id text username]
@@ -310,7 +319,7 @@
 
 (comment
   (update-date-last-entry-for-subject-id! (get-subject-id-by-text "deneme"))
-
+  (create-subject! "deneme" "ustunozgur")
   (get-subject-by-text "deneme"))
 
 
