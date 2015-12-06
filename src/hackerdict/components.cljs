@@ -94,10 +94,16 @@
                      :placeholder "Please enter a definition for the subject"}]
          [:button.pure-button.pure-button-primary "Submit"]]))
 
+
+(defn request-login []
+  (html [:a.pure-button {:href "/login"} "Login/Register to add entries"]))
+
 (defn main-section [data]
   (html [:div.main-section.pure-u-2-3 [:h2 (:subject (:main-items @data))]
          [:ul (map entry (:entries (:main-items @data)))]
-         (post-entry data)]))
+         (if (:username @data)
+           (post-entry data)
+           (request-login))]))
 
 
 (defn bottom [data]
