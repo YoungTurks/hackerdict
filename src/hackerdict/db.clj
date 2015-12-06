@@ -1,9 +1,9 @@
 (ns hackerdict.db
-  (:require [hackerdict.schema :refer [schema]])
   (:import datomic.Util java.util.Random)
-  (:require [datomic.api :as d])
-  (:require [hackerdict.util :refer [clean-nil-vals]])
-  (:require [clojure.java.io :as io]))
+  (:require [hackerdict.schema :refer [schema]]
+            [datomic.api :as d]
+            [hackerdict.util.common :refer [clean-nil-vals]]
+            [clojure.java.io :as io]))
 
 
 (def uri "datomic:dev://localhost:4334/test2")
