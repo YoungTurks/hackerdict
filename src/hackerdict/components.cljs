@@ -19,7 +19,7 @@
 
 (defn header [data]
   (html [:header.pure-g [:div.pure-u-2-3
-                         [:h2 "hacker-dict"]
+                         [:h2 [:a {:href "/"} "hacker-dict"]]
                          [:span "dictionary for programmers by programmers"]]
          (login-logout data)]))
 

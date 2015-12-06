@@ -9,6 +9,14 @@ header {
   color: darkblue;
 }
 
+header a {
+  text-decoration: none;
+}
+
+header a:hover {
+  text-decoration: underline;
+}
+
 div.main {
 
 
