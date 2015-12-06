@@ -1,7 +1,6 @@
 (ns hackerdict.util.rest)
 
 (defn response
-  [{:keys [status headers body]}]
-  {:status  (or status 200)
-   :headers (or headers {"Content-Type" "text/plain"})
-   :body    body})
+  [m]
+  "have default status or headers but they can be overridden"
+  (merge {:status 200 :headers {"Content-Type" "text/plain"}} m))
