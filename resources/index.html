@@ -4,8 +4,13 @@
     <link href="css/style.css" rel="stylesheet" type="text/css">
   </head>
   <body>
-    <div id="app"></div> <!-- add this line -->
+    <div id="app"></div>
+
+    {% if production %}
+    <script src="cljsp/main.js" type="text/javascript"></script>
+    {% else %}
     <script src="cljs/main.js" type="text/javascript"></script>
+    {% endif %}
 
     {% if user %}
     {% include "post_entry.html" %}

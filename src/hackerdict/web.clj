@@ -35,7 +35,7 @@
 
 (defn home-page [request]
   (let [session (:session request)
-        context {:user (:user session)}
+        context {:user (:user session) :production (env :production)}
         body (render-file "index.html" context)]
     (rest/html-response {:body body})))
 

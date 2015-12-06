@@ -39,9 +39,11 @@
                        :production {
                                     :source-paths ["src"]
                                     :compiler {:main "hackerdict.core"
-                                               :asset-path "cljs/out"
+                                               ;:asset-path "cljs/out"
+                                               :optimizations :advanced
                                                :output-to  "resources/public/cljsp/main.js"
-                                               :output-dir "resources/public/cljsp/out"}
+                                               ;:output-dir "resources/public/cljsp/out"
+                                               }
                                     }}
               }
   :figwheel { ;; <-- add server level config here
