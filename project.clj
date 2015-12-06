@@ -2,6 +2,8 @@
   :description "The community driven dictionary of hacker interests."
   :url "http://hackerdict.herokuapp.com"
   :main hackerdict.web
+  :aot [hackerdict.web]
+  :resource-paths ["resources"]
   :repositories {"my.datomic.com" {:url "https://my.datomic.com/repo"
                                    :username [:env/datomic-username]
                                    :password [:env/datomic-password]}}
@@ -11,14 +13,16 @@
                  [compojure "1.4.0"]
                  [environ "1.0.1"]
                  [org.postgresql/postgresql "9.4-1206-jdbc42"]
-                 [http-kit "2.1.18"]
+                 [http-kit "2.1.19"]
                  [org.clojure/clojure "1.7.0"]
+                 [org.clojure/data.json "0.2.6"]
                  [org.clojure/data.generators "0.1.2"]
-                 [org.clojure/tools.nrepl "0.2.11"]
+                 [org.clojure/tools.nrepl "0.2.12"]
                  [ring-basic-authentication "1.0.5"]
                  [ring/ring-codec "1.0.0"]
                  [ring/ring-devel "1.4.0"]
-                 [ring/ring-jetty-adapter "1.4.0"]]
+                 [ring/ring-jetty-adapter "1.4.0"]
+                 [ring/ring-json "0.4.0"]]
   :min-lein-version "2.0.0"
   :plugins [[lein-environ "1.0.1"]]
   :uberjar-name "hackerdict-standalone.jar"

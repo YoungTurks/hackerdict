@@ -1,1 +1,266 @@
+[
+   
 
+   ;;; User Schema
+
+   {:db/id #db/id[:db.part/db]
+    :db/ident :user/username
+    :db/valueType :db.type/string
+    :db/fulltext true
+    :db/doc "A user's username"
+    :db/unique :db.unique/identity
+    :db/cardinality :db.cardinality/one
+    :db.install/_attribute :db.part/db}
+
+   {:db/id #db/id[:db.part/db]
+    :db/ident :user/password
+    :db/valueType :db.type/string
+    :db/doc "A user's password"
+    :db/cardinality :db.cardinality/one
+    :db.install/_attribute :db.part/db}
+
+   {:db/id #db/id[:db.part/db]
+    :db/ident :user/name
+    :db/valueType :db.type/string
+    :db/fulltext true
+    :db/doc "A user's name"
+    :db/cardinality :db.cardinality/one
+    :db.install/_attribute :db.part/db}
+
+   {:db/id #db/id[:db.part/db]
+    :db/ident :user/email
+    :db/valueType :db.type/string
+    :db/fulltext true
+    :db/doc "A user's email"
+    :db/cardinality :db.cardinality/one
+    :db.install/_attribute :db.part/db}
+
+   {:db/id #db/id[:db.part/db]
+    :db/ident :user/github-username
+    :db/valueType :db.type/string
+    :db/fulltext true
+    :db/doc "A user's github username"
+    :db/cardinality :db.cardinality/one
+    :db.install/_attribute :db.part/db}
+
+   {:db/id #db/id[:db.part/db]
+    :db/ident :user/github-token
+    :db/valueType :db.type/string
+    :db/doc "A user's password"
+    :db/cardinality :db.cardinality/one
+    :db.install/_attribute :db.part/db}
+
+   {:db/id #db/id[:db.part/db]
+    :db/ident :user/login-date
+    :db/valueType :db.type/instant
+    :db/doc "A user's login dates"
+    :db/cardinality :db.cardinality/many
+    :db.install/_attribute :db.part/db}
+
+   {:db/id #db/id[:db.part/db]
+    :db/ident :user/date-added
+    :db/valueType :db.type/instant
+    :db/doc "A user's added date"
+    :db/cardinality :db.cardinality/one
+    :db.install/_attribute :db.part/db}
+
+   {:db/id #db/id[:db.part/db]
+    :db/ident :user/date-updated
+    :db/valueType :db.type/instant
+    :db/doc "A user's updated date"
+    :db/cardinality :db.cardinality/one
+    :db.install/_attribute :db.part/db}
+
+   ;; TODO: friends, followers, followed people
+
+   ;; TODO: is date_created and date_updated necessary for datomic entities?
+
+   ;; TODO: Bots: are they special users or are they entity types?
+
+   
+
+   ;;; User Action
+
+   {:db/id #db/id[:db.part/db]
+    :db/ident :action/user
+    :db/valueType :db.type/ref
+    :db/doc "An action's user"
+    :db/cardinality :db.cardinality/one
+    :db.install/_attribute :db.part/db}
+
+   {:db/id #db/id[:db.part/db]
+    :db/ident :action/date
+    :db/valueType :db.type/instant
+    :db/doc "An action's date"
+    :db/cardinality :db.cardinality/one
+    :db.install/_attribute :db.part/db}
+
+   {:db/id #db/id[:db.part/db]
+    :db/ident :action/name
+    :db/valueType :db.type/string
+    :db/doc "An action's name"
+    :db/cardinality :db.cardinality/one
+    :db.install/_attribute :db.part/db}
+
+   {:db/id #db/id[:db.part/db]
+    :db/ident :action/params
+    :db/valueType :db.type/string
+    :db/doc "An action's additional params, serialized as a string"
+                                        ; TODO: (datomic lacks a json/edn type?)
+    :db/cardinality :db.cardinality/one
+    :db.install/_attribute :db.part/db}
+
+   
+
+   ;;; Subject Schema
+
+   {:db/id #db/id[:db.part/db]
+    :db/ident :subject/text
+    :db/valueType :db.type/string
+    :db/fulltext true
+    :db/doc "A subject's text"
+    :db/unique :db.unique/identity
+    :db/cardinality :db.cardinality/one
+    :db.install/_attribute :db.part/db}
+
+   {:db/id #db/id[:db.part/db]
+    :db/ident :subject/creator
+    :db/valueType :db.type/ref ;; most possibly a user, but may be a bot or even blank
+    :db/fulltext true
+    :db/doc "A subject's creator"
+    :db/cardinality :db.cardinality/one
+    :db.install/_attribute :db.part/db}
+
+   {:db/id #db/id[:db.part/db]
+    :db/ident :subject/date-added
+    :db/valueType :db.type/instant
+    :db/doc "A subject's added date"
+    :db/cardinality :db.cardinality/one
+    :db.install/_attribute :db.part/db}
+
+   {:db/id #db/id[:db.part/db]
+    :db/ident :subject/n-entries-today
+    :db/valueType :db.type/long
+    :db/doc "A subject's number of entries today"
+    :db/cardinality :db.cardinality/one
+    :db.install/_attribute :db.part/db}
+
+   {:db/id #db/id[:db.part/db]
+    :db/ident :subject/n-entries-total
+    :db/valueType :db.type/long
+    :db/doc "A subject's number of entries in total"
+    :db/cardinality :db.cardinality/one
+    :db.install/_attribute :db.part/db}
+
+   {:db/id #db/id[:db.part/db]
+    :db/ident :subject/date-last-entry
+    :db/valueType :db.type/instant
+    :db/doc "A subject's date of last entry"
+    :db/cardinality :db.cardinality/one
+    :db.install/_attribute :db.part/db}
+
+   {:db/id #db/id[:db.part/db]
+    :db/ident :subject/primary-subject
+    :db/valueType :db.type/ref ;; another subject, if this doesn't exist, it means this is a primary subject
+    ;; TODO: this could be done with subject association below too actually, but we are worried it might be slow
+    ;; TODO: do we need isPrimary boolean attribute?
+    :db/fulltext true
+    :db/doc "A subject's creator"
+    :db/cardinality :db.cardinality/one
+    :db.install/_attribute :db.part/db}
+
+   ;; TODO: is primary and primary subject ref
+
+
+
+   ;; Subject Association
+
+   {:db/id #db/id[:db.part/db]
+    :db/ident :subject-association/subject-lhs
+    :db/valueType :db.type/ref ;; points to a subject
+    :db/fulltext true
+    :db/doc "A subject association's lhs"
+    :db/cardinality :db.cardinality/one
+    :db.install/_attribute :db.part/db}
+
+   {:db/id #db/id[:db.part/db]
+    :db/ident :subject-association/subject-rhs
+    :db/valueType :db.type/ref ;; points to another subject
+    :db/fulltext true
+    :db/doc "A subject association's rhs"
+    :db/cardinality :db.cardinality/one
+    :db.install/_attribute :db.part/db}
+
+
+   {:db/id #db/id[:db.part/db]
+    :db/ident :subject-association/association-type
+    :db/valueType :db.type/string
+    :db/fulltext true
+    :db/doc "A subject association's association type"
+    :db/cardinality :db.cardinality/one
+    :db.install/_attribute :db.part/db}
+
+   {:db/id #db/id[:db.part/db]
+    :db/ident :subject-association/date-added
+    :db/valueType :db.type/instant
+    :db/doc "A subject association's added date"
+    :db/cardinality :db.cardinality/one
+    :db.install/_attribute :db.part/db}
+
+      {:db/id #db/id[:db.part/db]
+    :db/ident :subject-association/date-updated
+    :db/valueType :db.type/instant
+    :db/doc "A subject association's updated date"
+    :db/cardinality :db.cardinality/one
+    :db.install/_attribute :db.part/db}
+
+   
+
+   ;;; Entry Schema
+
+   {:db/id #db/id[:db.part/db]
+    :db/ident :entry/text
+    :db/valueType :db.type/string
+    :db/fulltext true
+    :db/doc "An entry's contents"
+    :db/cardinality :db.cardinality/one
+    :db.install/_attribute :db.part/db}
+
+   {:db/id #db/id[:db.part/db]
+    :db/ident :entry/date-added
+    :db/valueType :db.type/instant
+    :db/doc "A entry's added date"
+    :db/cardinality :db.cardinality/one
+    :db.install/_attribute :db.part/db}
+
+   {:db/id #db/id[:db.part/db]
+    :db/ident :entry/date-updated
+    :db/valueType :db.type/instant
+    :db/doc "A entry's updated date"
+    :db/cardinality :db.cardinality/one
+    :db.install/_attribute :db.part/db}
+
+   {:db/id #db/id[:db.part/db]
+    :db/ident :entry/creator
+    :db/valueType :db.type/ref ;; most possibly a user, but may be a bot or even blank
+    :db/fulltext true
+    :db/doc "An entry's creator"
+    :db/cardinality :db.cardinality/one
+    :db.install/_attribute :db.part/db}
+
+   {:db/id #db/id[:db.part/db]
+    :db/ident :entry/subject
+    :db/valueType :db.type/ref
+    :db/fulltext true
+    :db/doc "An entry's main subject"
+    :db/cardinality :db.cardinality/one
+    :db.install/_attribute :db.part/db}
+
+   {:db/id #db/id[:db.part/db]
+    :db/ident :entry/secondary-subject
+    :db/valueType :db.type/ref
+    :db/fulltext true
+    :db/doc "An entry's secondary subjects"
+    :db/cardinality :db.cardinality/many
+    :db.install/_attribute :db.part/db}
+]

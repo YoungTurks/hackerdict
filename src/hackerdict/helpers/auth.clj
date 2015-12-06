@@ -1,10 +1,10 @@
-(ns hackerdict.auth
+(ns hackerdict.helpers.auth
   (:require [cemerick.url :refer [url-encode]]
             [environ.core :refer [env]]
             [org.httpkit.client :as http]
             [ring.util.codec :as codec]))
 
-(def oauth2-params
+(def ^:private oauth2-params
    {:client-id        (env :github-client-id)
     :client-secret    (env :github-client-secret)
     :authorize-uri    "https://github.com/login/oauth/authorize"
@@ -16,6 +16,10 @@
   (let [chars (map char (range 65 91))]
     (reduce str (take 10 (repeatedly #(rand-nth chars))))))
 
+(defn- params->map [params]
+  (clojure.walk/keywordize-keys 
+    (codec/form-decode params)))
+
 (defn authorize-uri [state]
   (str
     (:authorize-uri oauth2-params)
@@ -25,10 +29,6 @@
     "&scope="         (url-encode (:scope oauth2-params))
     "&state="         (url-encode state)))
 
-(defn params->map [params]
-  (clojure.walk/keywordize-keys 
-    (codec/form-decode params)))
-
 (defn access-token [code]
   (let [resp (http/post (:access-token-uri oauth2-params)
                  {:form-params {:code         code
@@ -36,19 +36,6 @@
                                 :client_id    (:client-id oauth2-params)
                                 :redirect_uri (:redirect-uri oauth2-params)}
                   :basic-auth [(:client-id oauth2-params) (:client-secret oauth2-params)]
-                  :as          :text})]
-    (:access_token (params->map (:body @resp)))))
-
-(defn get-email [token]
-  (when token
-    (let [resp (http/get "https://api.github.com/user/emails"
-                         {:oauth-token token
-                          :as :text})]
-      (println "xxx")
-      (println resp)
-      (println @resp)
-      (println (:body @resp))
-      (println (params->map (:body @resp)))
-      (println (:email (params->map (:body @resp))))
-      (println "xxx")
-      (:email (params->map (:body @resp))))))
+                  :as          :text})
+       token (:access_token (params->map (:body @resp)))]
+    token))

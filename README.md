@@ -1,14 +1,40 @@
 # hackerdict
 
-A Clojure library designed to ... well, that part is up to you.
+---
 
-## Usage
+## Endpoints
 
-FIXME
 
-## License
+ 
+### Auth
 
-Copyright © 2015 FIXME
 
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+
+#### GET /login
+
+    curl http://hackerdict.herokuapp.com/login
+
+
+
+#### GET /logout
+
+    curl http://hackerdict.herokuapp.com/logout
+
+
+
+
+
+
+### User
+
+
+
+#### GET /users
+
+    curl http://hackerdict.herokuapp.com/users
+
+
+
+#### GET /user/:username
+
+    curl http://hackerdict.herokuapp.com/user/emrehan

@@ -1,4 +1,4 @@
-(ns hackerdict.util)
+(ns hackerdict.util.common)
 
 (defn clean-nil-vals
   "Cleans nil values from a map"

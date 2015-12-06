@@ -1,12 +1,11 @@
 (ns hackerdict.db
-  (:require [hackerdict.schema :refer [schema]])
   (:import datomic.Util java.util.Random)
-  (:require [datomic.api :as d])
-  (:require [hackerdict.util :refer [clean-nil-vals]])
-  (:require [clojure.java.io :as io]))
+  (:require [clojure.java.io :as io]
+            [datomic.api :as d]
+            [hackerdict.util.common :refer [clean-nil-vals]]))
 
 
-(def uri "datomic:dev://localhost:4334/test2")
+(def uri "datomic:dev://94.237.25.78:8334/test")
 
 ;(def uri  "datomic:sql://hackerdict?jdbc:postgresql://localhost:5432/datomic?user=datomic&password=datomic")
 
@@ -14,19 +13,19 @@
 ;; Maintenance and Migration Functions
 ;;;;;;;;;;;;;;;;;
 
+(def schema (read-string (slurp (io/resource "schema.edn"))))
+
 (defn create-database []
   (d/create-database uri))
 
 (defn delete-database []
   (d/create-database uri))
 
-
 (defn get-connection []
   (d/connect uri))
 
 (defn get-latest-db []
   (d/db (get-connection)))
-
 
 (defn create-schema []
   (d/transact (get-connection) schema))
@@ -36,6 +35,27 @@
   (create-database)
   (create-schema)
   )
+
+
+;;;;;;;;;;;;;;;;;
+;; Database Connection
+;;;;;;;;;;;;;;;;;
+
+(def conn (atom nil))
+
+(def db (atom nil))
+
+(defn connect! []
+  (println "Connecting to Datomic uri " uri ".")
+  (reset! conn (d/connect uri)))
+
+(defn get-db! []
+  (println "Setting database of the connection " @conn ".")
+  (reset! db (d/db @conn)))
+
+(defn create-schema! []
+  (d/transact @conn schema))
+
 
 ;;;;;;;;;;;;;;;;;
 ;; User functions
@@ -53,10 +73,9 @@
 
 (defn create-or-update-user
   "Creates or updates user for a given user map. The username field is required in the usermap. Other fields are optional."
-  [{:keys [username first-name last-name email github-username github-token]}]
+  [{:keys [username name email github-username github-token]}]
   (let [shared-map {:user/username username
-                    :user/first-name first-name
-                    :user/last-name last-name
+                    :user/name name
                     :user/email email
                     :user/github-username github-username
                     :user/github-token github-token}
@@ -86,7 +105,7 @@
   (get-user-ids))
 
 
-(defn get-user-names
+(defn get-user-usernames
   "doc-string"
   []
   (d/q '[:find [?n ...]
@@ -98,7 +117,7 @@
 (defn get-user-some-predefined-data
   "doc-string"
   []
-  (d/q `[:find [(pull ?e [:user/username :user/email :user/first-name]) ...]
+  (d/q `[:find [(pull ?e [:user/username :user/email :user/name]) ...]
          :where [?e :user/username]]
        (get-latest-db)))
 
@@ -133,11 +152,11 @@
 
   (pprint (first (get-user-all-data))))
 
-(defn get-user-first-names
+(defn get-user-names
   "doc-string"
   []
   (d/q '[:find [?n ...]
-         :where [?e :user/first-name ?n]]
+         :where [?e :user/name ?n]]
        (get-latest-db)))
 
 
@@ -154,7 +173,7 @@
 (comment
   (get-user-names)
 
-  (get-user-first-names)
+  (get-user-names)
 
   (get-user-emails))
 
@@ -164,13 +183,13 @@
 
 
 (comment
-  (create-or-update-user {:username "serkanozer" :first-name "SERKAN" })
+  (create-or-update-user {:username "serkanozer" :name "SERKAN" })
 
-  (add-user! {:username "serkanozer" :first-name "SERKAN"})
+  (add-user! {:username "serkanozer" :name "SERKAN"})
 
-  (create-or-update-user! {:username "koraygulay" :first-name "Koray"})
+  (create-or-update-user! {:username "koraygulay" :name "Koray"})
 
-  (add-user! {:username "ustunozgur" :first-name "Ustun" :last-name "Ozgur" :email "ustun@ustunozgur.com"}))
+  (add-user! {:username "ustunozgur" :name "Ustun Ozgur" :email "ustun@ustunozgur.com"}))
 
 
 ;;;;;;;;;;;;;;;;;;;
