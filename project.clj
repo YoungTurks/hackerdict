@@ -13,6 +13,7 @@
                  [org.postgresql/postgresql "9.4-1206-jdbc42"]
                  [http-kit "2.1.18"]
                  [org.clojure/clojure "1.7.0"]
+                 [org.clojure/data.json "0.2.6"]
                  [org.clojure/data.generators "0.1.2"]
                  [org.clojure/tools.nrepl "0.2.11"]
                  [ring-basic-authentication "1.0.5"]

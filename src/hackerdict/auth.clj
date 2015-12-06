@@ -1,5 +1,6 @@
 (ns hackerdict.auth
   (:require [cemerick.url :refer [url-encode]]
+            [clojure.data.json :as json]
             [environ.core :refer [env]]
             [org.httpkit.client :as http]
             [ring.util.codec :as codec]))
@@ -41,14 +42,15 @@
 
 (defn get-email [token]
   (when token
-    (let [resp (http/get "https://api.github.com/user/emails"
+    (let [resp (http/get "https://api.github.com/user"
                          {:oauth-token token
                           :as :text})]
-      (println "xxx")
-      (println resp)
-      (println @resp)
-      (println (:body @resp))
-      (println (params->map (:body @resp)))
-      (println (:email (params->map (:body @resp))))
-      (println "xxx")
-      (:email (params->map (:body @resp))))))
+    (println (json/read-str (:body @resp)))
+      (get (json/read-str (:body @resp)) "email"))))
+
+; (defn get-email [token]
+;   (when token
+;     (let [resp (http/get "https://api.github.com/user/emails"
+;                          {:oauth-token token
+;                           :as :text})]
+;       (get (first (filter #(get % "primary") (json/read-str (:body @resp)))) "email"))))
