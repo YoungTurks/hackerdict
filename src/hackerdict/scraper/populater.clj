@@ -10,7 +10,7 @@
 
 (def popular-clojure-repos "https://api.github.com/search/repositories?q=clojure?language=clojure&sort=stars&order=desc")
 (def bot-user-name "bot")
-(def dataPath "./resources/clojure-data.json")
+(def data-path "./resources/clojure-data.json")
 
 
 
@@ -19,7 +19,7 @@
 (defn getJSON [url]
   (json/read-str (:body @(http/get url))))
 
-(def gitData
+(def git-data
   (concat  ((getJSON (str popular-clojure-repos "&page=1")) "items")
           ((getJSON (str popular-clojure-repos "&page=2")) "items")
           ((getJSON (str popular-clojure-repos "&page=3")) "items")
@@ -28,4 +28,4 @@
 
 (comment
   (db/create-or-update-user! {:username bot-user-name})
-  (spit dataPath (json/write-str gitData)))
+  (spit data-path (json/write-str git-data)))

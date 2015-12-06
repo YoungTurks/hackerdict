@@ -1,5 +1,5 @@
 (ns hackerdict.scraper.transact
-  (:require [hackerdict.scraper.populater :refer [dataPath bot-user-name]]
+  (:require [hackerdict.scraper.populater :refer [data-path bot-user-name]]
             [hackerdict.db :as db]
             [clojure.data.json :as json]))
 

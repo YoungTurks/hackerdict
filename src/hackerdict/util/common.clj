@@ -38,6 +38,6 @@
 (defn process-text [text]
   ((comp markdown/md-to-html-string preMarkDown ) text))
 
-
-(process-text "[cnn](http://cnn.com)")
-(process-text "[java vs clojure] blabla\"")
+(comment
+  (process-text "[cnn](http://cnn.com)")
+  (process-text "[java vs clojure] blabla\""))
