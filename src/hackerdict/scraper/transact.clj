@@ -16,14 +16,18 @@
 (defn get-info-for-item [item]
   {:user (parse-owner-data (item "owner"))
    :description (item "description")
-   :name (item "name")})
+   :name (item "name")
+   :url (item "html_url")})
 
 
 (defn load-data []
   (db/create-or-update-user! {:username bot-user-name})
   (doseq [item-data (map get-info-for-item (git-data))]
-    (println (:description item-data))
-    (db/create-subject! (:description item-data) bot-user-name)))
+    (let [subject-name (:name item-data)]
+      (db/create-subject! subject-name bot-user-name)
+      (db/add-entry! {:subject subject-name :text (str "A project: " (:description item-data) ". [See github repo](" (:url item-data) ")") :username bot-user-name})
+
+    )))
 
 
 ;; Load data using:

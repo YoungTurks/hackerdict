@@ -339,29 +339,24 @@
 
 (defn get-entries-for-subject-text [subject-text]
 
-  (defn to-entry-map [[id text processed-text username date-added]]
-    {:subject subject-text
-     :id id
-     :text text
-     :processed-text processed-text
-     :username username
-     :date-added date-added})
-  (sort-by
-   :date-added
-   (map to-entry-map
+  (defn to-entry-map [[id text username date-added processed-text]]
+    {:subject subject-text :id id :text text :username username :date-added date-added :processed-text processed-text})
 
-        (d/q '[:find ?e ?text ?processed-text ?username ?date-added
-               :in $ ?subject-text
-               :where
-               [?e :entry/text ?text]
-               [?e :entry/processed-text ?processed-text]
-               [?e :entry/subject ?s]
-               [?s :subject/text ?subject-text]
-               [?e :entry/creator ?u]
-                                        ;[(not ?e :entry/hidden)]
-               [?u :user/username ?username]
-               [?e :entry/date-added ?date-added]
-                                        ; [?e :entry/date-updated ?date-updated]
+  (print "Deneme")
+  (map to-entry-map
+       (d/q '[:find ?e ?text ?username ?date-added ?processed-text
+              :in $ ?subject-text
+              :where
+              [?e :entry/text ?text]
+              [?e :entry/subject ?s]
+              [?s :subject/text ?subject-text]
+              [?e :entry/creator ?u]
+              [?u :user/username ?username]
+              [?e :entry/date-added ?date-added]
+              [?e :entry/processed-text ?processed-text]
+              ; [?e :entry/date-updated ?date-updated]
+
+
                ]
              (get-latest-db) subject-text))))
 
