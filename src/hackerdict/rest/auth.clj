@@ -20,10 +20,10 @@
       (if-let [token (auth/access-token (:code params))]
         (do
           (let [user (user/upsert-user! token)]
-            (print "deneme")
             (rest/response {:status  302
                             :headers {"Location" "/"}
-                            :session (assoc (dissoc session :state) :mymap {:foo "bar"} :token token :user user)})))
+                            :session (merge (dissoc session :state)
+                                            {:token token :user user})})))
         (rest/response {:status 500
                         :body   "Cannot get token."
                         :session (dissoc session :state)}))
@@ -35,6 +35,6 @@
     (if-let [token (:token session)]
       (rest/response {:status  302
                       :headers {"Location" "/"}
-                      :session (dissoc session :token)})
+                      :session (dissoc session :token :user)})
       (rest/response {:status 400
                       :body   "Not logged in."}))))
