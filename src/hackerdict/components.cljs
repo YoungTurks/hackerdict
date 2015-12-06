@@ -51,7 +51,7 @@
 
 (defn side-bar [data]
   (html [:div.side-bar.pure-u-1-3
-         [:div "Today's Topics"
+         [:div "Recent Topics"
           [:ul (map (partial subject data) (:sidebar-items @data))]]]))
 
 
