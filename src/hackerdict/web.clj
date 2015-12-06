@@ -9,13 +9,15 @@
             [hackerdict.util.rest :as rest]
             [ring.adapter.jetty :as jetty]
             [ring.middleware.basic-authentication :as basic]
+            [ring.middleware.json :as json]
             [ring.middleware.reload :as reload]
             [ring.middleware.session :as session]
             [ring.middleware.session.cookie :as cookie]
             [ring.middleware.stacktrace :as trace]
             [ring.util.response :as response]
             [cemerick.drawbridge :as drawbridge]
-            [environ.core :refer [env]]))
+            [environ.core :refer [env]])
+  (:gen-class))
 
 (defn- authenticated? [user pass]
   ;; TODO: heroku config:add REPL_USER=[...] REPL_PASSWORD=[...]
@@ -29,12 +31,11 @@
 (defroutes app
   #'auth-routes
   #'user-routes
-  
+
   (GET "/" {session :session}
     (rest/response {:body (str "Main Page \n"
                                "========= \n"
                                (when-let [token (:token session)] 
-                                 (println (str "at root token is " token))
                                  (str "User token is " token ".\n"
                                       "Username is " (auth/get-username token) ".\n" 
                                       "Name is " (auth/get-name token) ".\n" 
@@ -60,6 +61,8 @@
         ((if (env :production)
            wrap-error-page
            trace/wrap-stacktrace))
+        json/wrap-json-body
+        json/wrap-json-response
         reload/wrap-reload
         (site {:session {:store store}}))))
 
