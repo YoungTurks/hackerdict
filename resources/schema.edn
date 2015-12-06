@@ -1,5 +1,5 @@
 [
-   
+
 
    ;;; User Schema
 
@@ -77,7 +77,7 @@
 
    ;; TODO: Bots: are they special users or are they entity types?
 
-   
+
 
    ;;; User Action
 
@@ -110,7 +110,7 @@
     :db/cardinality :db.cardinality/one
     :db.install/_attribute :db.part/db}
 
-   
+
 
    ;;; Subject Schema
 
@@ -214,7 +214,7 @@
     :db/cardinality :db.cardinality/one
     :db.install/_attribute :db.part/db}
 
-   
+
 
    ;;; Entry Schema
 
@@ -231,6 +231,13 @@
     :db/valueType :db.type/string
     :db/fulltext true
     :db/doc "An entry's processed contents where the in-site links and markdown are parsed"
+    :db/cardinality :db.cardinality/one
+    :db.install/_attribute :db.part/db}
+
+ {:db/id #db/id[:db.part/db]
+    :db/ident :entry/hidden
+    :db/valueType :db.type/boolean
+    :db/doc "Whether an entry has been hidden"
     :db/cardinality :db.cardinality/one
     :db.install/_attribute :db.part/db}
 

@@ -18,7 +18,10 @@
 
 
 (defn header [data]
-  (html [:header.pure-g [:h2.pure-u-2-3 "HackerDict"] (login-logout data)]))
+  (html [:header.pure-g [:div.pure-u-2-3
+                         [:h2 "hacker-dict"]
+                         [:span "dictionary for programmers by programmers"]]
+         (login-logout data)]))
 
 (defn subject-entries-handler [data subject-text response]
     (swap! data update :main-items (fn [_] response))
@@ -51,16 +54,17 @@
 
 (defn side-bar [data]
   (html [:div.side-bar.pure-u-1-3
-         [:div "Recent Topics"
+         [:div [:h3 "Recent Topics"]
           [:ul (map (partial subject data) (:sidebar-items @data))]]]))
 
 
 (defn entry [entry-data]
   (html [:li.entry
          {:key (:text entry-data)}
-         [:span.entry (:text entry-data)]
-         [:span.username (:username entry-data)]
-         [:span.date (.fromNow (new js/moment (:date-added entry-data)))]]))
+         [:span.entry {:dangerouslySetInnerHTML {:__html (:processed-text entry-data)}}]
+         [:div.entry-bottom
+          [:span.username (:username entry-data)]
+          [:span.date (.fromNow (js/moment (:date-added entry-data)))]]]))
 
 (defn post-entry
   [data]
