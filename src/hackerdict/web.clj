@@ -64,6 +64,12 @@
         (rest/response {:status 500
                         :body (slurp (io/resource "500.html"))})))))
 
+
+(use 'ring.middleware.resource
+     'ring.middleware.content-type
+     'ring.middleware.not-modified)
+
+
 (defn wrap-app [app]
   ;; TODO: heroku config:add SESSION_SECRET=$RANDOM_16_CHARS
   (let [store (cookie/cookie-store {:key (env :session-secret)})]
@@ -71,6 +77,9 @@
         ((if (env :production)
            wrap-error-page
            trace/wrap-stacktrace))
+        (wrap-resource "public")
+        (wrap-content-type)
+        (wrap-not-modified)
         json/wrap-json-body
         json/wrap-json-response
         reload/wrap-reload
