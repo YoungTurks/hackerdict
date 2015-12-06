@@ -13,7 +13,7 @@
 (def dataPath "./resources/clojure-data.json")
 
 
-(db/create-or-update-user! {:username bot-user-name})
+
 
 
 (defn getJSON [url]
@@ -26,4 +26,6 @@
           ((getJSON (str popular-clojure-repos "&page=4")) "items")
           ))
 
-(spit dataPath (json/write-str gitData))
+(comment
+  (db/create-or-update-user! {:username bot-user-name})
+  (spit dataPath (json/write-str gitData)))
