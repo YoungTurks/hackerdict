@@ -24,8 +24,9 @@
          (login-logout data)]))
 
 (defn subject-entries-handler [data subject-text response]
-    (swap! data update :main-items (fn [_] response))
-    (swap! data update :form-subject (fn [_] subject-text)))
+  (.pushState js/history nil nil (str "/subject/" subject-text) ) ;
+  (swap! data update :main-items (fn [_] response))
+  (swap! data update :form-subject (fn [_] subject-text)))
 
 
 (defn get-subject-data [data subject-text]
