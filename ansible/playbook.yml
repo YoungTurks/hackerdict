@@ -29,6 +29,8 @@
       notify:
         - user created
     - file: path=/home/deploy/logs state=directory mode=0755
+    # - name: download leiningen boot script
+    # get_url: dest=/home/deploy/bin  url=https://raw.github.com/technomancy/leiningen/stable/bin/lein
     - name: 'upload hackerdict web supervisor conf'
       copy: src=hackerdict_supervisor.conf dest=/etc/supervisor/conf.d/
       notify:

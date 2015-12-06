@@ -4,9 +4,6 @@
   :main hackerdict.web
   :aot [hackerdict.web]
   :resource-paths ["resources"]
-  :repositories {"my.datomic.com" {:url "https://my.datomic.com/repo"
-                                   :username [:env/datomic-username]
-                                   :password [:env/datomic-password]}}
   :dependencies [[com.cemerick/url "0.1.1"]
                  [com.cemerick/drawbridge "0.0.7" :exclusions [ring/ring-core]]
                  [com.datomic/datomic-pro "0.9.5206" :exclusions [joda-time]]

@@ -5,7 +5,6 @@
             [clojure.java.io :as io]
             [hackerdict.helpers.auth :as auth]
             [hackerdict.db :as db]
-            [hackerdict.helpers.user :as user]
             [hackerdict.rest.auth :refer [auth-routes]]
             [hackerdict.rest.user :refer [user-routes]]
             [hackerdict.rest.dict :refer [dict-routes]]

@@ -1,7 +1,7 @@
 (ns hackerdict.rest.auth
   (:require [compojure.core :refer [defroutes GET]]
             [hackerdict.helpers.auth :as auth]
-            [hackerdict.helpers.user :as user]
+            [hackerdict.helpers.user :as user-helper]
             [hackerdict.util.rest :as rest]))
 
 (defroutes auth-routes
@@ -19,7 +19,7 @@
     (if (= (:state params) (:state session))
       (if-let [token (auth/access-token (:code params))]
         (do
-          (let [user (user/upsert-user! token)]
+          (let [user (user-helper/upsert-user! token)]
             (rest/response {:status  302
                             :headers {"Location" "/"}
                             :session (merge (dissoc session :state)
