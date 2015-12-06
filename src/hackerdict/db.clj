@@ -358,7 +358,7 @@
 
 
                ]
-             (get-latest-db) subject-text))))
+             (get-latest-db) subject-text)))
 
 (defn n-entries-for-subject-text [subject-text]
   (count (get-entries-for-subject-text subject-text)))
