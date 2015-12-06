@@ -27,6 +27,25 @@ li.entry {
 
 }
 
+li.entry h1 , li.entry h2, li.entry h3 {
+  font-size: 1em;
+  margin-top: 16px;
+    margin-bottom: 16px;
+
+  font-weight: normal;
+}
+
+
+li.entry .entry-bottom {
+  text-align: right;
+
+}
+
+li.entry .username {
+  font-style: italic;
+  margin-right: 5px;
+}
+
 li.subject {
   cursor: pointer;
 

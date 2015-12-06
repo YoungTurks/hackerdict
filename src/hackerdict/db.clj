@@ -337,16 +337,6 @@
   (add-entry! {:subject "Clojure" :text "Clojure berbat bir dildir" :username "ustun"}))
 
 
-(defn lower
-  "doc-string"
-  [x]
-  (.toLowerCase x)
-  )
-
-(comment
-  (lower "USTUN"))
-
-
 (defn get-entries-for-subject-text [subject-text]
 
   (defn to-entry-map [[id text username date-added processed-text]]
@@ -364,9 +354,11 @@
               [?u :user/username ?username]
               [?e :entry/date-added ?date-added]
               [?e :entry/processed-text ?processed-text]
-                                        ; [?e :entry/date-updated ?date-updated]
-]
-            (get-latest-db) subject-text)))
+              ; [?e :entry/date-updated ?date-updated]
+
+
+               ]
+             (get-latest-db) subject-text))))
 
 (defn n-entries-for-subject-text [subject-text]
   (count (get-entries-for-subject-text subject-text)))
