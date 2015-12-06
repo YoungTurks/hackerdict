@@ -3,7 +3,7 @@
    [ajax.core :refer [GET POST]]
    [cemerick.url :refer [url-encode]]
    [hackerdict.mock-data :refer [mock-side-bar-data mock-main-feed-data]]
-   [hackerdict.components :refer [like-seymore main]]))
+   [hackerdict.components :refer [main]]))
 
 (enable-console-print!)
 ;; mock users: {:username "ustun" :name "Ustun Ozgur" :email "ustun@ustunozgur.com"}
@@ -50,7 +50,7 @@
            (.getElementById js/document "app")))
 
 (add-watch app-state :on-change (fn [_ _ _ _]
-                                  (print (str "app state is "@app-state))
+;                                  (print (str "app state is "@app-state))
                                   (render!)))
 
 (render!)
