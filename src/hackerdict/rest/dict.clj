@@ -2,6 +2,7 @@
   (:require [compojure.core :refer [defroutes GET POST]]
             [hackerdict.db :as db]
             [cemerick.url :refer [url-encode]]
+            [ring.middleware.transit :refer [wrap-transit-response wrap-transit-body]]
             [ring.util.response :refer [redirect]]
             [hackerdict.util.rest :as rest]))
 
@@ -27,4 +28,8 @@
   (POST "/api/dict/entry/" request add-entry)
 
   (GET "/api/dict/subject/:text" [text :as {session :session}]
-    (rest/response {:body (db/get-entries-for-subject-text text)})))
+       (rest/response {:body {:subject text
+                              :entries (db/get-entries-for-subject-text text)}})))
+
+
+;(comment (str ((wrap-transit-response {:fuck "that"}))))

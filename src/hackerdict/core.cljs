@@ -1,6 +1,7 @@
 (ns hackerdict.core
   (:require
    [ajax.core :refer [GET POST]]
+   [cemerick.url :refer [url-encode]]
    [hackerdict.mock-data :refer [mock-side-bar-data mock-main-feed-data]]
    [hackerdict.components :refer [like-seymore main]]))
 
@@ -10,12 +11,37 @@
                       :sidebar-items mock-side-bar-data
                       :main-items mock-main-feed-data}))
 
+                                  ;(print (str "app state is "@app-state))
 
-(defn handler [response]
-  ;(.log js/console (str response))
+(defn latest-subjects-handler [response]
+  (print "got latest subjects data")
+  (swap! app-state update :sidebar-items (fn [_] response))
+  (.log js/console (str response))
   )
 
-(GET "http://hackerdictlocal.com:5000/api/dict/latest-subjects" {:handler handler})
+(defn subject-entries-handler [response]
+  (print "got subject entries dat")
+  (swap! app-state update :main-items (fn [_] response))
+  (.log js/console (str response))
+  )
+
+(defn current-user-handler [response]
+  (print "got current user data")
+  (swap! app-state update :username (fn [_] "deneme"))
+  (.log js/console (str response))
+  )
+
+
+
+(GET "/api/dict/latest-subjects" {:handler latest-subjects-handler :response-format :json
+         :keywords? true})
+
+(GET (str "/api/dict/subject/" (url-encode "clojure")) {:handler subject-entries-handler
+                                                        :response-format :json
+         :keywords? true})
+
+(GET "/api/user/current-user" {:handler current-user-handler :response-format :json
+         :keywords? true})
 
 
 (defn render! []
@@ -23,6 +49,8 @@
            (main app-state)
            (.getElementById js/document "app")))
 
-(add-watch app-state :on-change (fn [_ _ _ _] (render!)))
+(add-watch app-state :on-change (fn [_ _ _ _]
+                                  (print (str "app state is "@app-state))
+                                  (render!)))
 
 (render!)

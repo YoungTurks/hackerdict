@@ -283,7 +283,7 @@
 
 (comment
   (use 'clojure.pprint)
-  (pprint (get-entries))
+  (count (get-entries))
 
   (map :entry/text (get-entries)))
 

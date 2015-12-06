@@ -2,7 +2,7 @@
 <html>
   <head>
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
-    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
   </head>
   <body>
     <div id="app"></div>
@@ -17,9 +17,9 @@
     </script>
 
     {% if production %}
-    <script src="cljsp/main.js" type="text/javascript"></script>
+    <script src="/cljsp/main.js" type="text/javascript"></script>
     {% else %}
-    <script src="cljs/main.js" type="text/javascript"></script>
+    <script src="/cljs/main.js" type="text/javascript"></script>
     {% endif %}
 
 

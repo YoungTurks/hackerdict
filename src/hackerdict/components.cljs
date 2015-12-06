@@ -39,11 +39,12 @@
               ;  (str @data (:sidebar-items @data))
               [:ul (map subject (:sidebar-items @data))]]]))
 
+
 (defn entry [entry-data]
-  (html [:li.entry {:key (:text entry-data)} (:text entry-data) (:creator entry-data) (str (.fromNow (new js/moment (:date-created entry-data))))]))
+  (html [:li.entry {:key (:text entry-data)} (:text entry-data) (:username entry-data) (str (.fromNow (new js/moment (:date-added entry-data))))]))
+
 
 (defn post-entry
-  ""
   [data]
   (html [:form.entry-form.pure-form.pure-form-stacked {:method "POST" :action "/api/dict/entry/"}
          [:input {:name "subject" :placeholder "Subject"}]

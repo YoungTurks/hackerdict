@@ -31,9 +31,9 @@
 (def mock-main-feed-data
   {:subject "clojure"
    :entries [
-             {:text "clojure is a lisp" :creator "ustunozgur" :date-created #inst "2015-12-05"}
-             {:text "clojure runs on the jvm" :creator "ustunozgur" :date-created #inst "2015-12-05"}
-             {:text "clojure is fun" :creator "ustunozgur" :date-created #inst "2015-12-05"}
+             {:text "clojure is a lisp" :username "ustunozgur" :date-added #inst "2015-12-05"}
+             {:text "clojure runs on the jvm" :username "ustunozgur" :date-added #inst "2015-12-05"}
+             {:text "clojure is fun" :username "ustunozgur" :date-added #inst "2015-12-05"}
              ]
    :meta {:page 1 :date-latest-entry #inst "2015-12-05"}
    })

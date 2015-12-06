@@ -16,6 +16,7 @@
                  [org.clojure/clojurescript "1.7.170"]
                  [sablono "0.3.6"]
                  [cljs-ajax "0.5.2"]
+                 [ring-transit "0.1.4"]
                  [org.clojure/data.json "0.2.6"]
                  [org.clojure/data.generators "0.1.2"]
                  [org.clojure/tools.nrepl "0.2.12"]
