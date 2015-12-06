@@ -24,7 +24,7 @@
 (defn replace-multiple-world-link [text]
   (clojure.string/replace text #"\[(.*?)\]([^\(])"
                           (fn [x] (let [gr2 (x 2) gr1 (x 1) conv (str "[" gr1 "]" "(/subject/"
-                                                            (replaceSpacesWithUrlQuotes gr1) ")" gr2) ] conv)))
+                                                            (replace-spaces-with-url-quotes gr1) ")" gr2) ] conv)))
   )
 
 
