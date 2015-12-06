@@ -5,13 +5,13 @@
 
 (defn like-seymore [data]
   (html [:div
-             [:h1 "serkan's quantified popularity: " (:likes @data)]
+             [:h1 "sdfsdf: " (:likes @data)]
              [:div [:a {:href "#"
                         :onClick #(swap! data update-in [:likes] inc)}
                     "Thumbs up"]]]))
 
 (defn header [data]
-  (html [:div "HackerDict"]))
+  (html [:div "HackerDict!"]))
 
 (defn subject [subject-data]
   (html [:li {:key (:subject-text subject-data)}
