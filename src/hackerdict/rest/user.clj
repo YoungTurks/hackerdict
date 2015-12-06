@@ -5,7 +5,7 @@
 
 (defroutes user-routes
   (GET "/users" {session :session}
-    (rest/response {:body (str "All users are " (db/get-user-ids))}))
+    (rest/response {:body (str "All users are " (db/get-user-usernames))}))
 
   (GET "/user/:username" [username :as {session :session}]
     (rest/response {:body (db/get-user-by-username username)})))

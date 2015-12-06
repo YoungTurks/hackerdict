@@ -105,7 +105,7 @@
   (get-user-ids))
 
 
-(defn get-user-names
+(defn get-user-usernames
   "doc-string"
   []
   (d/q '[:find [?n ...]
