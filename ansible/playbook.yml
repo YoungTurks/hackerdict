@@ -4,8 +4,8 @@
       group: name=web state=present
     - name: 'create deploy user'
       user: name=deploy state=present groups=web
-    - name: "update apt cache"
-      apt: update_cache=yes
+    # - name: "update apt cache"
+    #   apt: update_cache=yes
     - name: Add JRE ppa
       apt_repository: repo=ppa:webupd8team/java state=present
     - name: Automatically select the Oracle License

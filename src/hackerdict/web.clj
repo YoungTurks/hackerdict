@@ -85,6 +85,7 @@
         (site {:session {:store store}}))))
 
 (defn -main [& [port]]
+  (db/create-database)
   (db/connect!)
   (db/get-db!)
   (db/create-schema!)
