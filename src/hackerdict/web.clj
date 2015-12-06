@@ -48,6 +48,9 @@
 
   (GET "/" request home-page)
 
+  (GET "/subject/:subject-text" request home-page)
+
+
   (ANY "/repl" {:as req}
        (drawbridge req))
 
