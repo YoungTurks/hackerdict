@@ -1,9 +1,8 @@
 (ns hackerdict.db
   (:import datomic.Util java.util.Random)
-  (:require [hackerdict.schema :refer [schema]]
+  (:require [clojure.java.io :as io]
             [datomic.api :as d]
-            [hackerdict.util.common :refer [clean-nil-vals]]
-            [clojure.java.io :as io]))
+            [hackerdict.util.common :refer [clean-nil-vals]]))
 
 
 (def uri "datomic:dev://94.237.25.78:8334/test")
@@ -13,6 +12,8 @@
 ;;;;;;;;;;;;;;;;;
 ;; Maintenance and Migration Functions
 ;;;;;;;;;;;;;;;;;
+
+(def schema (read-string (slurp (io/resource "schema.edn"))))
 
 (defn create-database []
   (d/create-database uri))

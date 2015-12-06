@@ -3,6 +3,7 @@
   :url "http://hackerdict.herokuapp.com"
   :main hackerdict.web
   :aot [hackerdict.web]
+  :resource-paths ["resources"]
   :repositories {"my.datomic.com" {:url "https://my.datomic.com/repo"
                                    :username [:env/datomic-username]
                                    :password [:env/datomic-password]}}
