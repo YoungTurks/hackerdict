@@ -2,16 +2,8 @@
   (:require [ajax.core :refer [GET POST]]
             [cljsjs.moment]
             [cemerick.url :refer [url-encode]]
-
             [sablono.core :refer-macros [html]]))
 
-
-(defn like-seymore [data]
-  (html [:div
-         [:h1 "sdfsdf: " (:likes @data)]
-         [:div [:a {:href "#"
-                    :onClick #(swap! data update-in [:likes] inc)}
-                "Thumbs up"]]]))
 
 (defn login-logout
   ""
@@ -39,6 +31,14 @@
         :response-format :json
         :keywords? true}))
 
+(defn latest-subjects-handler [data response]
+  (swap! data update :sidebar-items (fn [_] response)))
+
+
+(defn get-latest-subjects [data]
+  (GET "/api/dict/latest-subjects" {:handler (partial latest-subjects-handler data)
+                                    :response-format :json
+                                    :keywords? true}))
 
 (defn subject [data subject-data]
   (html [:li.subject {:key (:text subject-data)}
@@ -51,7 +51,7 @@
 
 (defn side-bar [data]
   (html [:div.side-bar.pure-u-1-3
-         [:div "Today's Topics"
+         [:div "Recent Topics"
           [:ul (map (partial subject data) (:sidebar-items @data))]]]))
 
 
@@ -74,6 +74,7 @@
                              :params {:subject (:form-subject @data) :text (:form-entry @data)}
                              :handler (fn [_]
                                         (get-subject-data data (:form-subject @data))
+                                        (get-latest-subjects data)
                                         (swap! data update :form-entry (fn [_] ""))
                                         ;(swap! data update :form-subject (fn [_] ""))
                                         )

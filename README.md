@@ -1,40 +1,11 @@
-# hackerdict
+# [HackerDict](http://hacker-dict.com/)
 
----
+HackerDict is a community driven dictionary on programming related topics. It makes use of immutable data structures. Since it uses immutable database accessing edit histories are possible. 
 
-## Endpoints
+Everybody can see all the information on HackerDict. However, adding data requires authentication.
 
+GitHub profiles are used for authentication and interaction between users. As soon as users logged in they can add entries under subjects. GitHub usernames are identifiers of users on HackerDict.
 
- 
-### Auth
+HackerDict is written entirely in Clojure and ClojureScript. It also uses Datomic database. Ring, Compojure, Environ, DrawBridge, Sablono, Selmer,Cljs-Ajax and Figwheel are among the libraries HackerDict makes use of.
 
-
-
-#### GET /login
-
-    curl http://hackerdict.herokuapp.com/login
-
-
-
-#### GET /logout
-
-    curl http://hackerdict.herokuapp.com/logout
-
-
-
-
-
-
-### User
-
-
-
-#### GET /users
-
-    curl http://hackerdict.herokuapp.com/users
-
-
-
-#### GET /user/:username
-
-    curl http://hackerdict.herokuapp.com/user/emrehan
+Start using HackerDict by logging in with GitHub: http://hacker-dict.com/login
