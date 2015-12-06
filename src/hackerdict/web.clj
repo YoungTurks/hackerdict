@@ -4,6 +4,7 @@
             [compojure.route :as route]
             [clojure.java.io :as io]
             [hackerdict.auth :as auth]
+            [hackerdict.rest.auth :refer [auth-routes]]
             [hackerdict.rest.user :refer [user-routes]]
             [hackerdict.util.rest :as rest]
             [ring.adapter.jetty :as jetty]
@@ -26,37 +27,9 @@
       (basic/wrap-basic-authentication authenticated?)))
 
 (defroutes app
+  #'auth-routes
   #'user-routes
-
-  (GET "/login" {session :session}
-    (if-let [token (:token session)]
-      (rest/response {:status 400
-                      :body   "Already logged in."})
-      (let [state (auth/random-state)
-            uri (auth/authorize-uri state)]
-         (rest/response {:status  302 
-                         :headers {"Location" uri}
-                         :session (assoc session :state state)}))))
-
-  (GET "/logout" {session :session}
-    (if-let [token (:token session)]
-      (rest/response {:status  302 
-                      :headers {"Location" "/"}
-                      :session (dissoc session :token)})
-      (rest/response {:status 400 
-                      :body   "Not logged in."})))
   
-  (GET "/auth" {params :params session :session}
-    (if (= (:state params) (:state session))
-      (if-let [token (auth/access-token (:code params))]
-        (rest/response {:status  302 
-                        :headers {"Location" "/"}
-                        :session (assoc session :token token)})
-        (rest/response {:status 500
-                        :body   "Cannot get token."}))
-      (rest/response {:status 400
-                      :body   "Sessions doesn't match."})))
-
   (GET "/" {session :session}
     (rest/response {:body (str "Main Page \n"
                                "========= \n"
