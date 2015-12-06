@@ -7,7 +7,7 @@
 ;; (create subjects for each clojure repository by using their description
 
 (defn git-data []
-  (json/read-str (str (slurp dataPath))))
+  (json/read-str (str (slurp data-path))))
 
 ;; github usernames can be useful later
 (defn parse-owner-data [owner-data]
