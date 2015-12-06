@@ -1,5 +1,6 @@
 (ns hackerdict.components
-  (:require [sablono.core :refer-macros [html]]))
+  (:require [ajax.core :refer [GET POST]]
+            [sablono.core :refer-macros [html]]))
 
 
 (defn like-seymore [data]
@@ -10,11 +11,13 @@
                     "Thumbs up"]]]))
 
 (defn header [data]
-  (html [:div "This sfdfsdsfsfsdfs is the header"]))
+  (html [:div "HackerDict"]))
 
 (defn subject [subject-data]
-  (html [:li (:subject-text subject-data)])
+  (html [:li [:a {:onClick (fn [e] (.preventDefault e) (js/alert (:subject-text subject-data)))} (:subject-text subject-data)]])
   )
+
+
 (defn side-bar [data]
   (html [:div "Side bar"
              [:div "Today's Topics"
